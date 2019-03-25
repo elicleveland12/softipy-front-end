@@ -7,17 +7,18 @@ const searchBar = {
   height: '25px',
   width: '100%'
 }
-
 //***** STYLING *****//
 
+
 class Search extends Component {
+
   render() {
     return (
-      <form>
+      <form onSubmit={this.props.searchHandler}>
         <input
           style={searchBar}
           placeholder="Search"
-          onChange={() => console.log("~YeEt~")}
+          onChange={this.props.updateSearchTerm}
         />
       </form>
     );
