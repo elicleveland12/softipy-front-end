@@ -1,26 +1,30 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Grid, Row, Col } from 'react-flexbox-grid'
+
+import Nav from './components/Nav'
+import Dashboard from './components/Dashboard'
+
+const colStyle = {
+  height: '50px',
+  textAlign: 'center',
+  border: '2px solid green',
+}
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
+      <Grid>
+        <Row className="Nav">
+          <Col style={colStyle} xs={12}>
+            <Nav />
+          </Col>
+        </Row>
+        <Row>
+          <Col xs={12}>
+            <Dashboard />
+          </Col>
+        </Row>
+      </Grid>
     );
   }
 }
