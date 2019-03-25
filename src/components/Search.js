@@ -19,6 +19,7 @@ class Search extends Component {
           style={searchBar}
           placeholder="Search"
           onChange={this.props.updateSearchTerm}
+          value={this.props.search}
         />
       </form>
     );

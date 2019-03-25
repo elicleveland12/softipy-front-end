@@ -5,7 +5,9 @@ import Playlists from './Playlists'
 class PlaylistContainer extends Component {
 
   state = {
-    playlists: []
+    playlists: [],
+    expandPlaylist: false,
+    clickedPlaylist: null,
   }
 
   componentDidMount() {
@@ -18,17 +20,49 @@ class PlaylistContainer extends Component {
     })
   }
 
+  handleClick = (playlist) => {
+    if (this.state.expandPlaylist === false) {
+      this.setState({
+        expandPlaylist: !this.state.expandPlaylist,
+        clickedPlaylist: playlist
+      })
+    }
+  }
+
+  renderSinglePlaylist = () => {
+    // hey friends, please implement a back button tomorrow, and you know, if you're feeling it, maybe have the songs display and stuff
+    return (
+      <Playlists
+        playlist={this.state.clickedPlaylist}
+        handleClick={this.handleClick}
+        songs={this.props.songs}
+        expandPlaylist={this.state.expandPlaylist}
+      />
+    )
+  }
+
   renderPlaylists = () => {
     return this.state.playlists.map(playlist => {
-      return <Playlists key={playlist.id} playlist={playlist} draggedSong={this.props.draggedSong}/>
+      return (
+        <Playlists
+          key={playlist.id}
+          playlist={playlist}
+          handleClick={this.handleClick}
+          songs={this.props.songs}
+          expandPlaylist={this.state.expandPlaylist}
+          draggedSong={this.props.draggedSong}
+        />
+      )
     })
   }
 
   render() {
     return (
       <div>
-        <h3>PlaylistContainer</h3>
-        {this.renderPlaylists()}
+        {this.state.expandPlaylist === false ?
+          this.renderPlaylists() :
+          this.renderSinglePlaylist()
+        }
       </div>
     );
   }

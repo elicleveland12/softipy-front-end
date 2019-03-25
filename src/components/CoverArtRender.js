@@ -31,14 +31,15 @@ class CoverArtRender extends Component {
         <img src={this.props.result.album.cover} />
         <p>{this.props.result.artist.name}</p>
         <p>{this.props.result.title}</p>
-        <audio controls>
-          <source src={this.props.result.preview}
-            type='audio/mp3'>
-          </source>
-          </audio>
       </div>
     );
   }
 }
 
 export default CoverArtRender;
+
+// <audio controls>
+//   <source src={this.props.result.preview}
+//     type='audio/mp3'>
+//   </source>
+//   </audio>

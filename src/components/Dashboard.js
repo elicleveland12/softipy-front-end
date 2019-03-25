@@ -18,6 +18,7 @@ const centerCols = {
   height: '500px',
   textAlign: 'center',
   border: '2px solid green',
+  overflow: 'scroll'
 }
 
 const eventsRow = {
@@ -30,7 +31,33 @@ const eventsRow = {
 class Dashboard extends Component {
 
   state = {
-    draggedSong: []
+    draggedSong: [],
+    search: "",
+    searchResults: [],
+    allSongs: []
+  }
+
+  componentDidMount() {
+    fetch('http://localhost:3000/songs')
+    .then(r=>r.json())
+    .then(songs => {
+      this.setState({ allSongs: songs })
+    })
+  }
+
+  searchHandler = (e) => {
+    e.preventDefault()
+    fetch(`https://cors-anywhere.herokuapp.com/http://api.deezer.com/search?q=${this.state.search}`)
+    .then(r=>r.json())
+    .then(searchResults => {
+      this.setState({ searchResults, search: "" })
+    })
+    }
+
+  updateSearchTerm = (e) => {
+    this.setState({
+      search: e.target.value
+    })
   }
 
   handleDraggedSong = (song) => {
@@ -47,10 +74,10 @@ class Dashboard extends Component {
             <FriendsContainer />
           </Col>
           <Col style={centerCols} xs={5}>
-            <LookupContainer handleDraggedSong={this.handleDraggedSong} />
+            <LookupContainer handleDraggedSong={this.handleDraggedSong} searchHandler={this.searchHandler} search={this.state.search} updateSearchTerm={this.updateSearchTerm} searchResults={this.state.searchResults}/>
           </Col>
           <Col style={centerCols} xs={4}>
-            <PlaylistContainer draggedSong={this.state.draggedSong}/>
+            <PlaylistContainer draggedSong={this.state.draggedSong} songs={this.state.allSongs}/>
           </Col>
         </Row>
         <Row style={eventsRow}>

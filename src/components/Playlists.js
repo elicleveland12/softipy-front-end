@@ -22,11 +22,27 @@ class Playlists extends Component {
     .then(console.log)
   }
 
+  filterSongs = () => {
+    // debugger
+    if (this.props.songs !== []) {
+      let filteredSongs = this.props.songs.filter(song => song.playlist_id === this.props.playlist.id)
+      return filteredSongs
+    }
+  }
+
+  renderThumbnail = () => {
+    let song = this.filterSongs()
+    if (song[0]) {
+      return song[0].cover_art
+    }
+  }
+
   render() {
     return (
       <div onDragOver={(e)=>e.preventDefault()} onDrop={this.persistSongToPlaylist}
-      onDragEnter={(e)=>e.preventDefault()}>
-        <p>{this.props.playlist.name}</p>
+      onDragEnter={(e)=>e.preventDefault()} onClick={() => this.props.handleClick(this.props.playlist)}>
+        <img src={this.renderThumbnail()}/>
+
       </div>
     );
   }
