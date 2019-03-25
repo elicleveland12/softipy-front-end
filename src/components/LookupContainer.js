@@ -4,6 +4,8 @@ import { Grid, Row, Col } from 'react-flexbox-grid'
 import Search from './Search'
 import SearchResults from './SearchResults'
 
+
+
 class LookupContainer extends Component {
 
   state = {
@@ -37,7 +39,7 @@ class LookupContainer extends Component {
         </Row>
         <Row>
           <Col>
-            <SearchResults results={this.state.searchResults}/>
+            <SearchResults results={this.state.searchResults} handleDraggedSong={this.props.handleDraggedSong}/>
           </Col>
         </Row>
       </Grid>

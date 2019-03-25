@@ -25,11 +25,9 @@ const resultImg = {
 
 class CoverArtRender extends Component {
 
-
   render() {
-    console.log(this.props)
     return (
-      <div onDrag={} style={resultCard}>
+      <div draggable="true" onDrag={(song)=>this.props.handleDraggedSong(this.props.result)} style={resultCard}>
         <img src={this.props.result.album.cover} />
         <p>{this.props.result.artist.name}</p>
         <p>{this.props.result.title}</p>

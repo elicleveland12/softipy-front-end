@@ -10,7 +10,7 @@ class SearchResults extends Component {
   renderSearchResult = () => {
     if (this.props.results.data) {
       return this.props.results.data.map(result => {
-        return <CoverArtRender result={result}/>
+        return <CoverArtRender key={result.id} result={result} handleDraggedSong={this.props.handleDraggedSong}/>
       })
     }
   }

@@ -28,6 +28,17 @@ const eventsRow = {
 
 
 class Dashboard extends Component {
+
+  state = {
+    draggedSong: []
+  }
+
+  handleDraggedSong = (song) => {
+    this.setState({
+      draggedSong: song
+    })
+  }
+
   render() {
     return (
       <Grid>
@@ -36,10 +47,10 @@ class Dashboard extends Component {
             <FriendsContainer />
           </Col>
           <Col style={centerCols} xs={5}>
-            <LookupContainer />
+            <LookupContainer handleDraggedSong={this.handleDraggedSong} />
           </Col>
           <Col style={centerCols} xs={4}>
-            <PlaylistContainer />
+            <PlaylistContainer draggedSong={this.state.draggedSong}/>
           </Col>
         </Row>
         <Row style={eventsRow}>
