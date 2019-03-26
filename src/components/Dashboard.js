@@ -49,7 +49,13 @@ class Dashboard extends Component {
     let allSongs = this.state.allSongs
     this.setState({
       allSongs: [...allSongs, song]
-    }, () => console.log("new song", this.state.allSongs))
+    })
+  }
+
+  deleteSong = newSongs => {
+    this.setState({
+      allSongs: newSongs
+    })
   }
 
   searchHandler = (e) => {
@@ -85,7 +91,7 @@ class Dashboard extends Component {
             <LookupContainer handleDraggedSong={this.handleDraggedSong} searchHandler={this.searchHandler} search={this.state.search} updateSearchTerm={this.updateSearchTerm} searchResults={this.state.searchResults}/>
           </Col>
           <Col style={centerCols} xs={4}>
-            <PlaylistContainer draggedSong={this.state.draggedSong} songs={this.state.allSongs} addSong={this.addSong}/>
+            <PlaylistContainer draggedSong={this.state.draggedSong} songs={this.state.allSongs} addSong={this.addSong} deleteSong={this.deleteSong}/>
           </Col>
         </Row>
         <Row style={eventsRow}>

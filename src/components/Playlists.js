@@ -8,7 +8,6 @@ class Playlists extends Component {
   }
 
   persistSongToPlaylist = () => {
-    //preview, don't lie... you do work.
     let data = {
       title: this.props.draggedSong.title,
       artist: this.props.draggedSong.artist.name,
@@ -16,7 +15,7 @@ class Playlists extends Component {
       playlist_id: this.props.playlist.id,
       preview: this.props.draggedSong.preview
     }
-    console.log(data);
+
     fetch('http://localhost:3000/songs', {
       method: 'POST',
       headers: {
@@ -48,36 +47,74 @@ class Playlists extends Component {
     console.log(song);
     this.setState({
       playSong: song
-    }, () => console.log("new state", this.state.playSong))
+    })
+  }
+
+  deleteSong = (song) => {
+    let newSongs = this.props.songs.filter(s => {
+      return s.id !== song.id;
+    })
+
+    fetch(`http://localhost:3000/songs/${song.id}`, {
+      method: 'DELETE'
+    })
+    .then(r => r.json())
+    .then(() => {
+      this.props.deleteSong(newSongs)
+    })
   }
 
   renderSongs = () => {
     let mySongs = this.filterSongs()
     return (
       <div>
+        <button onClick={this.props.goBack}>Back To My Playlists</button>
+        <button onClick={() => this.props.deletePlaylist(this.props.playlist)}>Delete Playlist</button>
         <img src={this.renderThumbnail()}/>
         <h4>{this.props.playlist.name}</h4>
         <ul>
-        {mySongs.map(song => <li onClick={() => this.playSong(song)} key={song.id}>{song.title}: {song.artist}</li>)}
+        {mySongs.map(song => {
+          return (
+            <li
+              onClick={() => this.playSong(song)}
+              key={song.id}
+            >
+              {song.title}: {song.artist}
+              <button onClick={() => this.deleteSong(song)}>Delete</button>
+            </li>
+          );
+        })}
         </ul>
       </div>
     )
   }
 
   render() {
+    const filterSongs = this.filterSongs();
     return (
-      <div onDragOver={(e)=>e.preventDefault()} onDrop={this.persistSongToPlaylist}
-      onDragEnter={(e)=>e.preventDefault()} onClick={() => this.props.handleClick(this.props.playlist)}>
-        {this.props.expandPlaylist ? this.renderSongs() :
+      <div
+        onDragOver={(e)=>e.preventDefault()}
+        onDragEnter={(e)=>e.preventDefault()}
+        onDrop={this.persistSongToPlaylist}
+        onClick={() => this.props.handleClick(this.props.playlist)}
+      >
+        {
+          this.props.expandPlaylist ?
+          this.renderSongs() :
           <div>
             <img src={this.renderThumbnail()}/>
             <h4>{this.props.playlist.name}</h4>
           </div>
         }
-        <ReactAudioPlayer
-          src={this.state.playSong ? this.state.playSong.preview : null}
-          controls
-        />
+        {
+          this.props.expandPlaylist ?
+          <ReactAudioPlayer
+            src={this.state.playSong ? this.state.playSong.preview : filterSongs[0].preview}
+            controls
+            autoPlay
+          /> :
+          null
+        }
       </div>
     );
   }

@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import ReactAudioPlayer from 'react-audio-player';
+
 
 //***** STYLING *****//
 const resultCard = {
@@ -26,12 +28,12 @@ const resultImg = {
 class CoverArtRender extends Component {
 
   render() {
-    console.log(this.props.result.preview);
     return (
       <div draggable="true" onDrag={(song)=>this.props.handleDraggedSong(this.props.result)} onClick={() => console.log("song", this.props.result)} style={resultCard}>
         <img src={this.props.result.album.cover} />
         <p>{this.props.result.artist.name}</p>
         <p>{this.props.result.title}</p>
+        <ReactAudioPlayer src={this.props.result.preview} controls />
       </div>
     );
   }

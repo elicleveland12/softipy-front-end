@@ -8,6 +8,8 @@ class PlaylistContainer extends Component {
     playlists: [],
     expandPlaylist: false,
     clickedPlaylist: null,
+    playlistForm: false,
+    newPlaylistName: ""
   }
 
   componentDidMount() {
@@ -39,6 +41,9 @@ class PlaylistContainer extends Component {
         expandPlaylist={this.state.expandPlaylist}
         draggedSong={this.props.draggedSong}
         addSong={this.props.addSong}
+        deleteSong={this.props.deleteSong}
+        goBack={this.goBack}
+        deletePlaylist={this.deletePlaylist}
       />
     )
   }
@@ -59,12 +64,83 @@ class PlaylistContainer extends Component {
     })
   }
 
+  newPlaylistName = (e) => {
+    this.setState({
+      newPlaylistName: e.target.value
+    })
+  }
+
+  createPlaylist = (e) => {
+    e.preventDefault()
+    fetch('http://localhost:3000/playlists', {
+      method: 'POST',
+      headers: {
+        "Content-type": "application/json"
+      },
+      body: JSON.stringify({
+        name: this.state.newPlaylistName
+      })
+    })
+    .then(res => res.json())
+    .then(newPlaylist => {
+      this.setState({
+        playlists: [...this.state.playlists, newPlaylist],
+        playlistForm: false
+      })
+    })
+  }
+  goBack = () => {
+   this.setState({
+     expandPlaylist: !this.state.expandPlaylist,
+     clickedPlaylist: null
+   })
+  }
+
+  deletePlaylist = (deletePlaylist) => {
+    let foundPlaylist = this.state.playlists.find(playlist => playlist.id === deletePlaylist.id)
+    let newPlaylists = this.state.playlists.filter(playlist => playlist.id !== deletePlaylist.id)
+    fetch(`http://localhost:3000/playlists/${deletePlaylist.id}`, {
+      method: "DELETE"
+    })
+    .then(r => r.json())
+    .then(() => {
+      this.setState({
+        playlists: newPlaylists,
+        expandPlaylist: false,
+        clickedPlaylist: null
+      })
+    })
+  }
+
+  addNewPlaylist = () => {
+    return (
+      <div>
+        <h2>Playlist Name:</h2>
+        <form onSubmit={this.createPlaylist}>
+          <input onChange={this.newPlaylistName} type="text" name="newPlaylistName"/>
+          <input type="submit" value="Submit" />
+        </form>
+      </div>
+    )
+  }
+
+  changePlaylistFormState = () => {
+    this.setState({ playlistForm: !this.state.playlistForm})
+  }
+
   render() {
     return (
       <div>
         {this.state.expandPlaylist === false ?
-          this.renderPlaylists() :
-          this.renderSinglePlaylist()
+          <div>
+            <button onClick={this.changePlaylistFormState}>+</button>
+            {this.state.playlistForm ? this.addNewPlaylist() : null}
+            {this.renderPlaylists()}
+
+          </div> :
+          <div>
+            {this.renderSinglePlaylist()}
+          </div>
         }
       </div>
     );
