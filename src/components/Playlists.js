@@ -1,6 +1,35 @@
 import React, { Component } from 'react';
 import ReactAudioPlayer from 'react-audio-player'
+import '../App.css'
 
+const songImg = {
+  borderRadius: '1em',
+  height: '70px',
+  width: '70px',
+  paddingLeft: '5px',
+  paddingTop: '5px',
+  paddingBottom: '5px',
+  float: 'left',
+}
+
+const audioPlayer = {
+  height: '30px',
+  width: '200px'
+}
+
+const artistAndTitle = {
+  display: 'inline',
+}
+
+const artist = {
+  marginTop: '2px',
+  fontSize: '120%'
+}
+
+const title = {
+  fontSize: '90%'
+}
+//***** STYLING *****//
 
 class Playlists extends Component {
   state = {
@@ -44,9 +73,17 @@ class Playlists extends Component {
   }
 
   playSong = (song) => {
-    console.log(song);
     this.setState({
       playSong: song
+    })
+  }
+
+  playFirstSong = () => {
+    const filterSongs = this.filterSongs();
+    this.setState({
+      playSong: filterSongs[0]
+    }, () => {
+      return filterSongs[0].preview
     })
   }
 
@@ -68,23 +105,27 @@ class Playlists extends Component {
     let mySongs = this.filterSongs()
     return (
       <div>
-        <button onClick={this.props.goBack}>Back To My Playlists</button>
-        <button onClick={() => this.props.deletePlaylist(this.props.playlist)}>Delete Playlist</button>
-        <img src={this.renderThumbnail()}/>
-        <h4>{this.props.playlist.name}</h4>
-        <ul>
-        {mySongs.map(song => {
-          return (
-            <li
-              onClick={() => this.playSong(song)}
-              key={song.id}
-            >
-              {song.title}: {song.artist}
-              <button onClick={() => this.deleteSong(song)}>Delete</button>
-            </li>
-          );
-        })}
-        </ul>
+        {
+          mySongs.length === 0
+          ? <h3>This playlist has no songs :(</h3>
+          : mySongs.map(song => {
+            return (
+              <div
+                className={
+                  this.state.playSong === song
+                  ? 'playing resultCard'
+                  : 'resultCard'
+                }
+                onClick={() => this.playSong(song)}
+                key={song.id}
+              >
+                <img style={songImg} src={song.cover_art} />
+                {song.title}: {song.artist}
+                <button className="right" onClick={() => this.deleteSong(song)}>x</button>
+              </div>
+            );
+          })
+        }
       </div>
     )
   }
@@ -93,11 +134,36 @@ class Playlists extends Component {
     const filterSongs = this.filterSongs();
     return (
       <div
+        draggable="false"
         onDragOver={(e)=>e.preventDefault()}
         onDragEnter={(e)=>e.preventDefault()}
         onDrop={this.persistSongToPlaylist}
         onClick={() => this.props.handleClick(this.props.playlist)}
       >
+        {
+          (this.props.expandPlaylist && filterSongs[0]) ?
+          <div className="sticky">
+            <img src={this.renderThumbnail()}/>
+            <h4>{this.props.playlist.name}</h4>
+            <div>
+              <button
+                className="playlistButton"
+                onClick={this.props.goBack}
+              >Back To My Playlists</button>
+              <button
+                className="playlistButton"
+                onClick={() => this.props.deletePlaylist(this.props.playlist)}
+              >Delete Playlist</button>
+            </div>
+            <ReactAudioPlayer
+              src={this.state.playSong ? this.state.playSong.preview :
+              this.playFirstSong()}
+              controls
+              autoPlay
+            />
+          </div> :
+          null
+        }
         {
           this.props.expandPlaylist ?
           this.renderSongs() :
@@ -105,15 +171,6 @@ class Playlists extends Component {
             <img src={this.renderThumbnail()}/>
             <h4>{this.props.playlist.name}</h4>
           </div>
-        }
-        {
-          this.props.expandPlaylist ?
-          <ReactAudioPlayer
-            src={this.state.playSong ? this.state.playSong.preview : filterSongs[0].preview}
-            controls
-            autoPlay
-          /> :
-          null
         }
       </div>
     );

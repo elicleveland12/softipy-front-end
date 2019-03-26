@@ -7,17 +7,22 @@ import PlaylistContainer from './PlaylistContainer'
 import EventContainer from './EventContainer'
 
 const colStyle = {
+  backgroundColor: 'rgb(224, 224, 209, 0.1)',
   height: '90px',
   textAlign: 'center',
-  border: '2px solid green',
+  boxShadow: '4px 4px 4px rgba(0, 0, 0, .5)',
+  borderRadius: '1em'
 }
 
 const centerCols = {
+  backgroundColor: 'rgb(224, 224, 209, 0.1)',
   marginTop: '10px',
-  marginLeft: '32px',
+  marginLeft: '10px',
+  marginRight: '10px',
   height: '500px',
   textAlign: 'center',
-  border: '2px solid green',
+  boxShadow: '4px 4px 4px rgba(0, 0, 0, .5)',
+  borderRadius: '1em',
   overflow: 'scroll'
 }
 
@@ -26,7 +31,6 @@ const eventsRow = {
   paddingTop: '20px',
   paddingLeft: '17%'
 }
-
 
 class Dashboard extends Component {
 
@@ -94,11 +98,11 @@ class Dashboard extends Component {
             <PlaylistContainer draggedSong={this.state.draggedSong} songs={this.state.allSongs} addSong={this.addSong} deleteSong={this.deleteSong}/>
           </Col>
         </Row>
-        <Row style={eventsRow}>
+        {/*<Row style={eventsRow}>
           <Col style={colStyle} xs={10}>
             <EventContainer />
           </Col>
-        </Row>
+        </Row>*/}
       </Grid>
     );
   }

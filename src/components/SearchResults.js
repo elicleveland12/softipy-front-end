@@ -3,6 +3,10 @@ import React, { Component } from 'react';
 import CoverArtRender from './CoverArtRender'
 
 //***** STYLING *****//
+const resultContainer = {
+  textAlign: 'center',
+  marginLeft: '10px'
+}
 //***** STYLING *****//
 
 class SearchResults extends Component {
@@ -17,7 +21,7 @@ class SearchResults extends Component {
 
   render() {
     return (
-      <div>
+      <div style={resultContainer}>
         {this.renderSearchResult()}
       </div>
     );

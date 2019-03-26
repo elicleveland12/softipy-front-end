@@ -4,6 +4,8 @@ import { Grid, Row, Col } from 'react-flexbox-grid'
 import Nav from './components/Nav'
 import Dashboard from './components/Dashboard'
 
+import './App.css'
+
 const colStyle = {
   height: '50px',
   textAlign: 'center',

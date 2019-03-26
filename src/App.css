@@ -1,3 +1,48 @@
+body {
+  background-image:url("https://us.123rf.com/450wm/rastudio/rastudio1801/rastudio180100952/94504136-sunny-summer-bright-sweet-multicolor-blurred-background-purple-ultraviolet-violet-red-fashion-pop-ar.jpg?ver=6");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+div.sticky {
+  top: 0;
+  position: sticky;
+  background-color: rgb(224, 224, 209, 0.8);
+  border-radius: 1em;
+  padding: 10px;
+}
+
+.resultCard {
+  min-height: 60px;
+  min-width: 360px;
+  border-radius: 1em;
+  box-shadow: 1px 2px 2px rgba(0, 0, 0, .5);
+  overflow: scroll;
+  margin: 5px auto;
+}
+
+.playing {
+  background-color: rgb(224, 224, 209, 0.5);
+}
+
+button.playlistButton {
+  margin: 5px 2px 5px 2px;
+  border-radius: 5px;
+}
+
+button.right {
+  background-color: #000;
+  color: #fff;
+  border: none;
+  border-radius: 3em;
+}
+
+.right {
+  float: right;
+  margin-right: 8px;
+  margin-top: 5px;
+}
+
 .App {
   text-align: center;
 }
