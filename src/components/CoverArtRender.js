@@ -26,8 +26,9 @@ const resultImg = {
 class CoverArtRender extends Component {
 
   render() {
+    console.log(this.props.result.preview);
     return (
-      <div draggable="true" onDrag={(song)=>this.props.handleDraggedSong(this.props.result)} style={resultCard}>
+      <div draggable="true" onDrag={(song)=>this.props.handleDraggedSong(this.props.result)} onClick={() => console.log("song", this.props.result)} style={resultCard}>
         <img src={this.props.result.album.cover} />
         <p>{this.props.result.artist.name}</p>
         <p>{this.props.result.title}</p>
@@ -37,9 +38,3 @@ class CoverArtRender extends Component {
 }
 
 export default CoverArtRender;
-
-// <audio controls>
-//   <source src={this.props.result.preview}
-//     type='audio/mp3'>
-//   </source>
-//   </audio>

@@ -45,6 +45,13 @@ class Dashboard extends Component {
     })
   }
 
+  addSong = song => {
+    let allSongs = this.state.allSongs
+    this.setState({
+      allSongs: [...allSongs, song]
+    }, () => console.log("new song", this.state.allSongs))
+  }
+
   searchHandler = (e) => {
     e.preventDefault()
     fetch(`https://cors-anywhere.herokuapp.com/http://api.deezer.com/search?q=${this.state.search}`)
@@ -67,6 +74,7 @@ class Dashboard extends Component {
   }
 
   render() {
+    console.log(this.state.draggedSong);
     return (
       <Grid>
         <Row>
@@ -77,7 +85,7 @@ class Dashboard extends Component {
             <LookupContainer handleDraggedSong={this.handleDraggedSong} searchHandler={this.searchHandler} search={this.state.search} updateSearchTerm={this.updateSearchTerm} searchResults={this.state.searchResults}/>
           </Col>
           <Col style={centerCols} xs={4}>
-            <PlaylistContainer draggedSong={this.state.draggedSong} songs={this.state.allSongs}/>
+            <PlaylistContainer draggedSong={this.state.draggedSong} songs={this.state.allSongs} addSong={this.addSong}/>
           </Col>
         </Row>
         <Row style={eventsRow}>
