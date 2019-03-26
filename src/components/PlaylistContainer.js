@@ -9,7 +9,8 @@ class PlaylistContainer extends Component {
     expandPlaylist: false,
     clickedPlaylist: null,
     playlistForm: false,
-    newPlaylistName: ""
+    newPlaylistName: "",
+    myPlaylists: []
   }
 
   componentDidMount() {
@@ -20,6 +21,11 @@ class PlaylistContainer extends Component {
         playlists
       })
     })
+  }
+
+  filterMyPlaylists = () => {
+    // debugger
+
   }
 
   handleClick = (playlist) => {
@@ -49,19 +55,26 @@ class PlaylistContainer extends Component {
   }
 
   renderPlaylists = () => {
-    return this.state.playlists.map(playlist => {
-      return (
-        <Playlists
-          key={playlist.id}
-          playlist={playlist}
-          handleClick={this.handleClick}
-          songs={this.props.songs}
-          expandPlaylist={this.state.expandPlaylist}
-          draggedSong={this.props.draggedSong}
-          addSong={this.props.addSong}
-        />
-      )
-    })
+    //lets figure out how to many-to-many the playlist and user, creating a playlist and having your playlists render while logged inspect
+    //logout functionality
+    //friends
+    let myPlaylists = this.state.playlists.filter(playlist => playlist.id === localStorage.getItem("user"))
+    this.setState({ myPlaylists })
+    if (this.state.myPlaylists !== []) {
+      return this.state.myPlaylists.map(playlist => {
+        return (
+          <Playlists
+            key={playlist.id}
+            playlist={playlist}
+            handleClick={this.handleClick}
+            songs={this.props.songs}
+            expandPlaylist={this.state.expandPlaylist}
+            draggedSong={this.props.draggedSong}
+            addSong={this.props.addSong}
+          />
+        )
+      })
+    }
   }
 
   newPlaylistName = (e) => {
@@ -84,11 +97,28 @@ class PlaylistContainer extends Component {
     .then(res => res.json())
     .then(newPlaylist => {
       this.setState({
-        playlists: [...this.state.playlists, newPlaylist],
+        myPlaylists: [...this.state.myPlaylists, newPlaylist],
         playlistForm: false
       })
+      this.createUserPlaylist(newPlaylist)
     })
   }
+
+  createUserPlaylist = (playlist) => {
+    let data = {
+      user_id: localStorage.getItem("user"),
+      playlist_id: playlist.id
+    }
+    fetch('http://localhost:3000/user_playlists' , {
+      method: 'POST',
+      headers: {
+        "Content-type": "application/json"
+      },
+      body: JSON.stringify(data)
+    })
+    .then(res => res.json())
+  }
+
   goBack = () => {
    this.setState({
      expandPlaylist: !this.state.expandPlaylist,

@@ -4,6 +4,18 @@ body {
   background-size: cover;
 }
 
+.login {
+  margin: auto;
+  margin-top: 200px;
+  padding: 10px;
+  background-color: white;
+  width: 500px;
+  border-radius: 15px;
+  /* position: fixed; */
+  /* top: 50%; */
+  text-align: center;
+}
+
 div.sticky {
   top: 0;
   position: sticky;
