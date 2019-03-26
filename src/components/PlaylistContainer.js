@@ -37,6 +37,7 @@ class PlaylistContainer extends Component {
         handleClick={this.handleClick}
         songs={this.props.songs}
         expandPlaylist={this.state.expandPlaylist}
+        draggedSong={this.props.draggedSong}
         addSong={this.props.addSong}
       />
     )

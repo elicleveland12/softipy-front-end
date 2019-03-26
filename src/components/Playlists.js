@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import MusicPlayer from './MusicPlayer'
+import ReactAudioPlayer from 'react-audio-player'
 
 
 class Playlists extends Component {
@@ -8,7 +8,6 @@ class Playlists extends Component {
   }
 
   persistSongToPlaylist = () => {
-    console.log(this.props.draggedSong);
     //preview, don't lie... you do work.
     let data = {
       title: this.props.draggedSong.title,
@@ -46,11 +45,10 @@ class Playlists extends Component {
   }
 
   playSong = (song) => {
-    debugger
     console.log(song);
     this.setState({
       playSong: song
-    }, () => console.log(this.state.playSong))
+    }, () => console.log("new state", this.state.playSong))
   }
 
   renderSongs = () => {
@@ -67,17 +65,19 @@ class Playlists extends Component {
   }
 
   render() {
-    console.log(this.props);
     return (
       <div onDragOver={(e)=>e.preventDefault()} onDrop={this.persistSongToPlaylist}
       onDragEnter={(e)=>e.preventDefault()} onClick={() => this.props.handleClick(this.props.playlist)}>
-      {this.props.expandPlaylist ? this.renderSongs() :
-        <div>
-          <img src={this.renderThumbnail()}/>
-          <h4>{this.props.playlist.name}</h4>
-        </div>
-      }
-      {this.state.playSong ? <MusicPlayer playSong={this.state.playSong}/> : null}
+        {this.props.expandPlaylist ? this.renderSongs() :
+          <div>
+            <img src={this.renderThumbnail()}/>
+            <h4>{this.props.playlist.name}</h4>
+          </div>
+        }
+        <ReactAudioPlayer
+          src={this.state.playSong ? this.state.playSong.preview : null}
+          controls
+        />
       </div>
     );
   }
