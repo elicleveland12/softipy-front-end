@@ -57,7 +57,6 @@ export default class Login extends React.Component {
 
   startSession = () => {
     let id = localStorage.getItem("user")
-    console.log(id);
     return <Redirect to="/" />
   }
 
