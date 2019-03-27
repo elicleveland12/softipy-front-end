@@ -74,7 +74,6 @@ class Dashboard extends Component {
   }
 
   render() {
-    console.log(this.state.draggedSong);
     return (
       <Grid>
         <Row>

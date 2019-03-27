@@ -65,10 +65,14 @@ class PlaylistContainer extends Component {
     })
 
     if (this.state.playlists !== []) {
-
+      // this is only finding the most recent of your PLAYLISTS
+      // also you need to refresh before they render
+      
       let myPlaylists = this.state.playlists.filter(playlist => {
         return playlist.users.includes(currentUser)
       });
+
+      console.log(this.state.playlists)
 
       if (myPlaylists !== []) {
         return (
