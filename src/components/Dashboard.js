@@ -26,7 +26,8 @@ class Dashboard extends Component {
     draggedSong: [],
     search: "",
     searchResults: [],
-    allSongs: []
+    allSongs: [],
+    searchTerm: null
   }
 
   componentDidMount() {
@@ -55,7 +56,8 @@ class Dashboard extends Component {
     fetch(`https://cors-anywhere.herokuapp.com/http://api.deezer.com/search?q=${this.state.search}`)
     .then(r=>r.json())
     .then(searchResults => {
-      this.setState({ searchResults, search: "" })
+      let searchTerm = [...this.state.search]
+      this.setState({ searchResults, search: "", searchTerm: searchTerm})
     })
     }
 
@@ -80,7 +82,8 @@ class Dashboard extends Component {
             <FriendsContainer />
           </Col>
           <Col className="playlist-container" xs={5}>
-            <LookupContainer handleDraggedSong={this.handleDraggedSong} searchHandler={this.searchHandler} search={this.state.search} updateSearchTerm={this.updateSearchTerm} searchResults={this.state.searchResults}/>
+            <LookupContainer handleDraggedSong={this.handleDraggedSong} searchHandler={this.searchHandler} search={this.state.search} updateSearchTerm={this.updateSearchTerm} searchResults={this.state.searchResults}
+            searchTerm={this.state.searchTerm}/>
           </Col>
           <Col className="playlist-container" xs={4}>
             <PlaylistContainer draggedSong={this.state.draggedSong} songs={this.state.allSongs} addSong={this.addSong} deleteSong={this.deleteSong}/>

@@ -55,6 +55,20 @@ div.sticky {
   margin: 10px;
 }
 
+.search-term {
+  background-color: black;
+  color: white;
+  padding: 5px;
+  border-radius: 5px;
+  text-align: left;
+}
+
+.song-card {
+  text-align: center;
+  vertical-align: middle;
+
+}
+
 .playlist-cards {
   background-color: white;
   box-shadow: 1px 2px 2px rgba(0, 0, 0, .5);
@@ -102,7 +116,7 @@ button.right {
 
 button.right:hover {
   color: white;
-  background-color: none;
+  background-color: black;
   border: 1px solid black;
   border-radius: 3em;
 }

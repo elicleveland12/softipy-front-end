@@ -19,7 +19,7 @@ class LookupContainer extends Component {
         </Row>
         <Row>
           <Col>
-            <SearchResults results={this.props.searchResults} handleDraggedSong={this.props.handleDraggedSong}/>
+            <SearchResults results={this.props.searchResults} handleDraggedSong={this.props.handleDraggedSong} searchTerm={this.props.searchTerm}/>
           </Col>
         </Row>
       </Grid>

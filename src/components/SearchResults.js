@@ -15,6 +15,8 @@ class SearchResults extends Component {
   render() {
     return (
       <div className="results-container" >
+        {this.props.searchTerm ? <h3 className="search-term">Songs with {this.props.searchTerm}: </h3> : null}
+
         {this.renderSearchResult()}
       </div>
     );
