@@ -6,20 +6,6 @@ import LookupContainer from './LookupContainer'
 import PlaylistContainer from './PlaylistContainer'
 import EventContainer from './EventContainer'
 
-// const colStyle = {
-//   backgroundColor: 'rgb(224, 224, 209, 0.1)',
-//   height: '90px',
-//   textAlign: 'center',
-//   boxShadow: '4px 4px 4px rgba(0, 0, 0, .5)',
-//   borderRadius: '1em'
-// }
-// //
-// const eventsRow = {
-//   width: '100%',
-//   paddingTop: '20px',
-//   paddingLeft: '17%'
-// }
-
 class Dashboard extends Component {
 
   state = {
@@ -27,7 +13,10 @@ class Dashboard extends Component {
     search: "",
     searchResults: [],
     allSongs: [],
-    searchTerm: null
+    searchTerm: null,
+    friend: null,
+    friendPlaylists: [],
+    newUserPlaylist: null,
   }
 
   componentDidMount() {
@@ -36,6 +25,10 @@ class Dashboard extends Component {
     .then(songs => {
       this.setState({ allSongs: songs })
     })
+  }
+
+  addPlaylist = (playlist) => {
+    this.setState({ newUserPlaylist: playlist });
   }
 
   addSong = song => {
@@ -73,27 +66,42 @@ class Dashboard extends Component {
     })
   }
 
+  handleClick = (friend) => {
+    this.setState({
+      friend
+    })
+  }
+
   render() {
-    console.log(this.state.draggedSong);
     return (
       <Grid>
         <Row>
           <Col className="playlist-container" xs={2}>
-            <FriendsContainer />
+            <FriendsContainer handleClick={this.handleClick}/>
           </Col>
           <Col className="playlist-container" xs={5}>
             <LookupContainer handleDraggedSong={this.handleDraggedSong} searchHandler={this.searchHandler} search={this.state.search} updateSearchTerm={this.updateSearchTerm} searchResults={this.state.searchResults}
             searchTerm={this.state.searchTerm}/>
           </Col>
           <Col className="playlist-container" xs={4}>
-            <PlaylistContainer draggedSong={this.state.draggedSong} songs={this.state.allSongs} addSong={this.addSong} deleteSong={this.deleteSong}/>
+            <PlaylistContainer
+              draggedSong={this.state.draggedSong}
+              songs={this.state.allSongs}
+              addSong={this.addSong}
+              deleteSong={this.deleteSong}
+              newUserPlaylist={this.state.newUserPlaylist}
+            />
           </Col>
         </Row>
-        {/*<Row style={eventsRow}>
-          <Col style={colStyle} xs={10}>
-            <EventContainer />
+        {<Row className="events-row playlist-container">
+          <Col className="col-style" xs={10}>
+            <EventContainer
+              songs={this.state.allSongs}
+              user={this.state.friend}
+              addPlaylist={this.addPlaylist}
+            />
           </Col>
-        </Row>*/}
+        </Row>}
       </Grid>
     );
   }

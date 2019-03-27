@@ -10,7 +10,66 @@ class PlaylistContainer extends Component {
     clickedPlaylist: null,
     playlistForm: false,
     newPlaylistName: "",
-    myPlaylists: []
+    myPlaylists: [],
+    newUserPlaylist: null,
+  }
+
+
+  static getDerivedStateFromProps(nextProps, prevState){
+     if(nextProps.newUserPlaylist !== prevState.newUserPlaylist) {
+       return { newUserPlaylist: nextProps.newUserPlaylist };
+    } else {
+      return null;
+    }
+  }
+
+  followPlaylist = () => {
+    let data = {
+      user_id: localStorage.getItem("user"),
+      playlist_id: this.state.newUserPlaylist.id
+    };
+
+    fetch('http://localhost:3000/user_playlists' , {
+      method: 'POST',
+      headers: {
+        "Content-type": "application/json"
+      },
+      body: JSON.stringify(data)
+    })
+    .then(res => res.json())
+    .then(newUserPlaylist => {
+      let newPlaylist = this.state.playlists.find(playlist => {
+        return playlist.id === this.state.newUserPlaylist.playlist_id;
+      })
+      this.setState({
+        myPlaylists: [...this.state.myPlaylists, newPlaylist],
+        newUserPlaylist: null,
+      })
+    })
+  }
+
+  setMyPlaylists = () => {
+    let userId = parseInt(localStorage.getItem("user"));
+    let currentUser;
+    let myPlaylists = []
+
+    this.state.playlists.forEach(playlist => {
+      playlist.users.forEach(user => {
+        if (user.id === userId) {
+          return currentUser = user;
+        }
+      })
+    })
+
+    this.state.playlists.forEach(playlist => {
+      playlist.users.forEach(user => {
+        if (user.id === userId) {
+          myPlaylists.push(playlist);
+        }
+      })
+    })
+
+    this.setState({ myPlaylists })
   }
 
   componentDidMount() {
@@ -21,6 +80,7 @@ class PlaylistContainer extends Component {
         playlists
       })
     })
+    .then(this.setMyPlaylists)
   }
 
   handleClick = (playlist) => {
@@ -33,7 +93,6 @@ class PlaylistContainer extends Component {
   }
 
   renderSinglePlaylist = () => {
-    // hey friends, please implement a back button tomorrow, and you know, if you're feeling it, maybe have the songs display and stuff
     return (
       <Playlists
         playlist={this.state.clickedPlaylist}
@@ -53,26 +112,27 @@ class PlaylistContainer extends Component {
     //lets figure out how to many-to-many the playlist and user, creating a playlist and having your playlists render while logged inspect
     //logout functionality
     //friends
-    let myPlaylists = this.state.playlists.filter(playlist => playlist.id === localStorage.getItem("user"))
-    // this.setState({ myPlaylists })
-    if (this.state.myPlaylists !== []) {
-      return (
-        this.state.playlists.map(playlist => {
+
+      if (this.state.myPlaylists !== []) {
         return (
-          <div class="playlist-cards">
-            <Playlists
-              key={playlist.id}
-              playlist={playlist}
-              handleClick={this.handleClick}
-              songs={this.props.songs}
-              expandPlaylist={this.state.expandPlaylist}
-              draggedSong={this.props.draggedSong}
-              addSong={this.props.addSong}
-            />
-          </div>
-        )
-      })
-    )
+          this.state.myPlaylists.map(playlist => {
+          return (
+            <div class="playlist-cards">
+              <Playlists
+                key={playlist.id}
+                playlist={playlist}
+                handleClick={this.handleClick}
+                songs={this.props.songs}
+                expandPlaylist={this.state.expandPlaylist}
+                draggedSong={this.props.draggedSong}
+                addSong={this.props.addSong}
+              />
+            </div>
+          )
+        })
+      )
+    } else {
+      return null;
     }
   }
 
@@ -97,6 +157,7 @@ class PlaylistContainer extends Component {
     .then(newPlaylist => {
       this.setState({
         myPlaylists: [...this.state.myPlaylists, newPlaylist],
+        playlists: [...this.state.playlists, newPlaylist],
         playlistForm: false
       })
       this.createUserPlaylist(newPlaylist)
@@ -108,6 +169,7 @@ class PlaylistContainer extends Component {
       user_id: localStorage.getItem("user"),
       playlist_id: playlist.id
     }
+
     fetch('http://localhost:3000/user_playlists' , {
       method: 'POST',
       headers: {
@@ -126,15 +188,15 @@ class PlaylistContainer extends Component {
   }
 
   deletePlaylist = (deletePlaylist) => {
-    let foundPlaylist = this.state.playlists.find(playlist => playlist.id === deletePlaylist.id)
-    let newPlaylists = this.state.playlists.filter(playlist => playlist.id !== deletePlaylist.id)
+    let foundPlaylist = this.state.myPlaylists.find(playlist => playlist.id === deletePlaylist.id)
+    let newPlaylists = this.state.myPlaylists.filter(playlist => playlist.id !== deletePlaylist.id)
     fetch(`http://localhost:3000/playlists/${deletePlaylist.id}`, {
       method: "DELETE"
     })
     .then(r => r.json())
     .then(() => {
       this.setState({
-        playlists: newPlaylists,
+        myPlaylists: newPlaylists,
         expandPlaylist: false,
         clickedPlaylist: null
       })
@@ -162,6 +224,9 @@ class PlaylistContainer extends Component {
   render() {
     return (
       <div>
+        {this.state.newUserPlaylist !== null ?
+        this.followPlaylist() :
+        null}
         {this.state.expandPlaylist === false ?
           <div>
             <button class="new-playlist" onClick={this.changePlaylistFormState}> + </button>

@@ -23,18 +23,13 @@ const friendImg = {
 
 
 class Friends extends Component {
-
-  // renderFreinds = () => {
-  //
-  // }
-
   render() {
     return (
-      <div style={friendCard}>
-        <a href="/"><div style={friendImgCard}>
-          <img style ={friendImg} src='https://cdn.newsapi.com.au/image/v1/5c2055a978a393124521bb577b07a10c'/>
-        </div></a>
-        <p>Johnny Mac</p>
+      <div style={friendCard} onClick={() => this.props.handleClick(this.props.user)}>
+        <div style={friendImgCard}>
+          <img style ={friendImg} src={`https://loremflickr.com/320/24${this.props.user.id}`} />
+        </div>
+        <p>{this.props.user.username}</p>
       </div>
     );
   }
