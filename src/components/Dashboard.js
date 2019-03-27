@@ -6,31 +6,19 @@ import LookupContainer from './LookupContainer'
 import PlaylistContainer from './PlaylistContainer'
 import EventContainer from './EventContainer'
 
-const colStyle = {
-  backgroundColor: 'rgb(224, 224, 209, 0.1)',
-  height: '90px',
-  textAlign: 'center',
-  boxShadow: '4px 4px 4px rgba(0, 0, 0, .5)',
-  borderRadius: '1em'
-}
-
-const centerCols = {
-  backgroundColor: 'rgb(224, 224, 209, 0.1)',
-  marginTop: '10px',
-  marginLeft: '10px',
-  marginRight: '10px',
-  height: '500px',
-  textAlign: 'center',
-  boxShadow: '4px 4px 4px rgba(0, 0, 0, .5)',
-  borderRadius: '1em',
-  overflow: 'scroll'
-}
-
-const eventsRow = {
-  width: '100%',
-  paddingTop: '20px',
-  paddingLeft: '17%'
-}
+// const colStyle = {
+//   backgroundColor: 'rgb(224, 224, 209, 0.1)',
+//   height: '90px',
+//   textAlign: 'center',
+//   boxShadow: '4px 4px 4px rgba(0, 0, 0, .5)',
+//   borderRadius: '1em'
+// }
+// //
+// const eventsRow = {
+//   width: '100%',
+//   paddingTop: '20px',
+//   paddingLeft: '17%'
+// }
 
 class Dashboard extends Component {
 
@@ -88,13 +76,13 @@ class Dashboard extends Component {
     return (
       <Grid>
         <Row>
-          <Col style={centerCols} xs={2}>
+          <Col className="playlist-container" xs={2}>
             <FriendsContainer />
           </Col>
-          <Col style={centerCols} xs={5}>
+          <Col className="playlist-container" xs={5}>
             <LookupContainer handleDraggedSong={this.handleDraggedSong} searchHandler={this.searchHandler} search={this.state.search} updateSearchTerm={this.updateSearchTerm} searchResults={this.state.searchResults}/>
           </Col>
-          <Col style={centerCols} xs={4}>
+          <Col className="playlist-container" xs={4}>
             <PlaylistContainer draggedSong={this.state.draggedSong} songs={this.state.allSongs} addSong={this.addSong} deleteSong={this.deleteSong}/>
           </Col>
         </Row>

@@ -2,7 +2,6 @@ import React, { Fragment } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { Redirect } from 'react-router'
 import App from '../App';
-
 import '../App.css'
 
 export default class Login extends React.Component {

@@ -119,7 +119,7 @@ class Playlists extends Component {
                 onClick={() => this.playSong(song)}
                 key={song.id}
               >
-                <img style={songImg} src={song.cover_art} />
+                <img className='song-img' src={song.cover_art} />
                 {song.title}: {song.artist}
                 <button className="right" onClick={() => this.deleteSong(song)}>x</button>
               </div>

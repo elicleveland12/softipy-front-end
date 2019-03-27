@@ -4,6 +4,27 @@ body {
   background-size: cover;
 }
 
+.song-img {
+  border-radius: 1em;
+  height: 70px;
+  width: 70px;
+  padding-left: 5px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  float: left;
+}
+.playlist-container {
+  background-color: #f2f9f9;
+  margin-top: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
+  height: 500px;
+  text-align: center;
+  box-shadow: 4px 4px 4px rgba(0, 0, 0, .5);
+  border-radius: 1em;
+  overflow: scroll;
+}
+
 .login {
   margin: auto;
   margin-top: 200px;
@@ -19,22 +40,47 @@ body {
 div.sticky {
   top: 0;
   position: sticky;
-  background-color: rgb(224, 224, 209, 0.8);
+  background-color: rgb(242, 249, 249, 0.8);
   border-radius: 1em;
   padding: 10px;
 }
 
 .resultCard {
+  background-color: white;
   min-height: 60px;
   min-width: 360px;
   border-radius: 1em;
   box-shadow: 1px 2px 2px rgba(0, 0, 0, .5);
   overflow: scroll;
-  margin: 5px auto;
+  margin: 10px;
+}
+
+.playlist-cards {
+  background-color: white;
+  box-shadow: 1px 2px 2px rgba(0, 0, 0, .5);
+  padding-top: 15px;
+  padding-bottom: 5px;
+  text-align: center;
+  width: 300px;
+  border-radius: 5px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  vertical-align: middle;
 }
 
 .playing {
-  background-color: rgb(224, 224, 209, 0.5);
+  background-color: #7a42f4;
+}
+
+.cover-art-div {
+  background-color: white;
+  min-height: 60px;
+  min-width: 380px;
+  border-radius: 1em;
+  box-shadow: 1px 2px 2px rgba(0, 0, 0, .5);
+  overflow: scroll;
 }
 
 button.playlistButton {
@@ -42,10 +88,22 @@ button.playlistButton {
   border-radius: 5px;
 }
 
+button.playlistButton:hover {
+  background-color: black;
+  color: white;
+}
+
 button.right {
-  background-color: #000;
-  color: #fff;
-  border: none;
+  color: black;
+  background-color: none;
+  border: 1px solid black;
+  border-radius: 3em;
+}
+
+button.right:hover {
+  color: white;
+  background-color: none;
+  border: 1px solid black;
   border-radius: 3em;
 }
 
@@ -63,6 +121,107 @@ button.right {
   animation: App-logo-spin infinite 20s linear;
   height: 40vmin;
   pointer-events: none;
+}
+
+.song-img {
+  border-radius: 1em;
+  padding-left: 8px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  float: left;
+  height: 100px;
+  width: 100px;
+}
+
+.new-playlist {
+  float: right;
+  background-color: none;
+  border-radius: 3em;
+  font-size: 30px;
+  text-align: center;
+  background-color: rgb(224, 224, 209, 0);
+  border: none;
+  vertical-align: middle;
+}
+
+.new-playlist:hover {
+  background-color: white;
+  color: black;
+}
+
+.artist {
+  margin-top: 2px;
+  font-size: 120%;
+}
+
+.title{
+  font-size: 90%;
+}
+
+.audio {
+  height: 30px;
+  width: 250px;
+  padding-bottom: 5px;
+}
+
+.artistAndTitle {
+  display: inline;
+}
+
+.playlist-form {
+  background-color: #d8d6d6;
+  color: black;
+  box-shadow: 1px 2px 2px rgba(0, 0, 0, .5);
+  border: 1px solid black;
+  width: 300px;
+  border-radius: 5px;
+  padding: 5px;
+  margin-top: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 10px;
+  text-align: center;
+}
+.playlistButton {
+  border-radius: 5px;
+  color: black;
+  background-color: none;
+  padding: 10px;
+}
+
+.playlistButton:hover {
+  background-color: black;
+  color: white;
+}
+
+.playlist-form-input {
+  border-radius: 5px;
+  padding: 4px;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.search-input {
+  border-radius: 5px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 15px;
+  height: 25px;
+  width: 100%;
+}
+
+.header {
+  background-color: #7a42f4;
+  color: white;
+  border-radius: 5px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.results-container {
+  text-align: center;
+  margin-left: 10px;
 }
 
 .App-header {

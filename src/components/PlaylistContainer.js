@@ -23,11 +23,6 @@ class PlaylistContainer extends Component {
     })
   }
 
-  filterMyPlaylists = () => {
-    // debugger
-
-  }
-
   handleClick = (playlist) => {
     if (this.state.expandPlaylist === false) {
       this.setState({
@@ -59,21 +54,25 @@ class PlaylistContainer extends Component {
     //logout functionality
     //friends
     let myPlaylists = this.state.playlists.filter(playlist => playlist.id === localStorage.getItem("user"))
-    this.setState({ myPlaylists })
+    // this.setState({ myPlaylists })
     if (this.state.myPlaylists !== []) {
-      return this.state.myPlaylists.map(playlist => {
+      return (
+        this.state.playlists.map(playlist => {
         return (
-          <Playlists
-            key={playlist.id}
-            playlist={playlist}
-            handleClick={this.handleClick}
-            songs={this.props.songs}
-            expandPlaylist={this.state.expandPlaylist}
-            draggedSong={this.props.draggedSong}
-            addSong={this.props.addSong}
-          />
+          <div class="playlist-cards">
+            <Playlists
+              key={playlist.id}
+              playlist={playlist}
+              handleClick={this.handleClick}
+              songs={this.props.songs}
+              expandPlaylist={this.state.expandPlaylist}
+              draggedSong={this.props.draggedSong}
+              addSong={this.props.addSong}
+            />
+          </div>
         )
       })
+    )
     }
   }
 
@@ -144,11 +143,13 @@ class PlaylistContainer extends Component {
 
   addNewPlaylist = () => {
     return (
-      <div>
+      <div className="playlist-form">
         <h2>Playlist Name:</h2>
         <form onSubmit={this.createPlaylist}>
-          <input onChange={this.newPlaylistName} type="text" name="newPlaylistName"/>
-          <input type="submit" value="Submit" />
+          <input className="playlist-form-input" onChange={this.newPlaylistName} type="text" name="newPlaylistName"/>
+          <br/><br/>
+          <input className="playlistButton" type="submit" value="Create Playlist" />
+          <br/><br/>
         </form>
       </div>
     )
@@ -163,7 +164,9 @@ class PlaylistContainer extends Component {
       <div>
         {this.state.expandPlaylist === false ?
           <div>
-            <button onClick={this.changePlaylistFormState}>+</button>
+            <button class="new-playlist" onClick={this.changePlaylistFormState}> + </button>
+            <br/>
+            <h1 className="header">MY PLAYLISTS:</h1>
             {this.state.playlistForm ? this.addNewPlaylist() : null}
             {this.renderPlaylists()}
 
