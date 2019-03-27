@@ -33,7 +33,6 @@ class PlaylistContainer extends Component {
   }
 
   renderSinglePlaylist = () => {
-    // hey friends, please implement a back button tomorrow, and you know, if you're feeling it, maybe have the songs display and stuff
     return (
       <Playlists
         playlist={this.state.clickedPlaylist}
@@ -53,9 +52,43 @@ class PlaylistContainer extends Component {
     //lets figure out how to many-to-many the playlist and user, creating a playlist and having your playlists render while logged inspect
     //logout functionality
     //friends
-    let myPlaylists = this.state.playlists.filter(playlist => playlist.id === localStorage.getItem("user"))
-    // this.setState({ myPlaylists })
-    if (this.state.myPlaylists !== []) {
+
+    let userId = parseInt(localStorage.getItem("user"));
+    let currentUser;
+
+    this.state.playlists.forEach(playlist => {
+      playlist.users.forEach(user => {
+        if (user.id === userId) {
+          return currentUser = user;
+        }
+      })
+    })
+
+    if (this.state.playlists !== []) {
+
+      let myPlaylists = this.state.playlists.filter(playlist => {
+        return playlist.users.includes(currentUser)
+      });
+
+      if (myPlaylists !== []) {
+        return (
+          myPlaylists.map(playlist => {
+          return (
+            <div class="playlist-cards">
+              <Playlists
+                key={playlist.id}
+                playlist={playlist}
+                handleClick={this.handleClick}
+                songs={this.props.songs}
+                expandPlaylist={this.state.expandPlaylist}
+                draggedSong={this.props.draggedSong}
+                addSong={this.props.addSong}
+              />
+            </div>
+          )
+        })
+      )
+    } else {
       return (
         this.state.playlists.map(playlist => {
         return (
@@ -73,8 +106,11 @@ class PlaylistContainer extends Component {
         )
       })
     )
-    }
   }
+} else {
+  return null;
+}
+}
 
   newPlaylistName = (e) => {
     this.setState({

@@ -18,32 +18,40 @@ export default class Login extends React.Component {
     })
   }
 
+  createUserPost = () => {
+    let data = {
+      username: this.state.username,
+      password: this.state.password
+    }
+    fetch('http://localhost:3000/users', {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+    .then(res => res.json())
+    .then(user => {
+      this.setState({
+        loggedIn: user
+      })
+    })
+  }
+
   createUser = e => {
     e.preventDefault()
-    let usernames = this.state.users.map(user => user.username)
-    if (usernames.includes(this.state.username)) {
-      let foundUser = this.state.users.find(user => user.username === this.state.username)
-      this.setState({
-        loggedIn: foundUser
-      })
+    if (this.state.users === []) {
+      this.createUserPost();
     } else {
-      let data = {
-        username: this.state.username,
-        password: this.state.password
-      }
-      fetch('http://localhost:3000/users', {
-        method: 'POST',
-        headers: {
-          'Content-type': 'application/json'
-        },
-        body: JSON.stringify(data)
-      })
-      .then(res => res.json())
-      .then(user => {
+      let usernames = this.state.users.map(user => user.username)
+      if (usernames.includes(this.state.username)) {
+        let foundUser = this.state.users.find(user => user.username === this.state.username)
         this.setState({
-          loggedIn: user
+          loggedIn: foundUser
         })
-      })
+      } else {
+        this.createUserPost();
+      }
     }
   }
 
@@ -52,11 +60,12 @@ export default class Login extends React.Component {
     console.log(id);
     return <Redirect to="/" />
   }
+
   componentDidMount(){
     fetch('http://localhost:3000/users')
     .then(res => res.json())
     .then(users => {
-      this.setState({ users }, () => console.log(this.state.users))
+      this.setState({ users })
     })
   }
 
@@ -64,7 +73,7 @@ export default class Login extends React.Component {
     if (this.state.loggedIn){
       localStorage.setItem('user', this.state.loggedIn.id)
     }
-    console.log(this.state.loggedIn);
+
     return (
       <div>
       {this.state.loggedIn ? this.startSession() :
