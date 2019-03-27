@@ -13,6 +13,29 @@ class PlaylistContainer extends Component {
     myPlaylists: []
   }
 
+  setMyPlaylists = () => {
+    let userId = parseInt(localStorage.getItem("user"));
+    let currentUser;
+    let myPlaylists = []
+
+    this.state.playlists.forEach(playlist => {
+      playlist.users.forEach(user => {
+        if (user.id === userId) {
+          return currentUser = user;
+        }
+      })
+    })
+
+    this.state.playlists.forEach(playlist => {
+      playlist.users.forEach(user => {
+        if (user.id === userId) {
+          myPlaylists.push(playlist);
+        }
+      })
+    })
+    this.setState({ myPlaylists })
+  }
+
   componentDidMount() {
     fetch('http://localhost:3000/playlists')
     .then(r=>r.json())
@@ -21,6 +44,7 @@ class PlaylistContainer extends Component {
         playlists
       })
     })
+    .then(this.setMyPlaylists)
   }
 
   handleClick = (playlist) => {
@@ -53,30 +77,10 @@ class PlaylistContainer extends Component {
     //logout functionality
     //friends
 
-    let userId = parseInt(localStorage.getItem("user"));
-    let currentUser;
-
-    this.state.playlists.forEach(playlist => {
-      playlist.users.forEach(user => {
-        if (user.id === userId) {
-          return currentUser = user;
-        }
-      })
-    })
-
-    if (this.state.playlists !== []) {
-      // this is only finding the most recent of your PLAYLISTS
       // also you need to refresh before they render
-      
-      let myPlaylists = this.state.playlists.filter(playlist => {
-        return playlist.users.includes(currentUser)
-      });
-
-      console.log(this.state.playlists)
-
-      if (myPlaylists !== []) {
+      if (this.state.myPlaylists !== []) {
         return (
-          myPlaylists.map(playlist => {
+          this.state.myPlaylists.map(playlist => {
           return (
             <div class="playlist-cards">
               <Playlists
@@ -93,28 +97,9 @@ class PlaylistContainer extends Component {
         })
       )
     } else {
-      return (
-        this.state.playlists.map(playlist => {
-        return (
-          <div class="playlist-cards">
-            <Playlists
-              key={playlist.id}
-              playlist={playlist}
-              handleClick={this.handleClick}
-              songs={this.props.songs}
-              expandPlaylist={this.state.expandPlaylist}
-              draggedSong={this.props.draggedSong}
-              addSong={this.props.addSong}
-            />
-          </div>
-        )
-      })
-    )
+      return null;
+    }
   }
-} else {
-  return null;
-}
-}
 
   newPlaylistName = (e) => {
     this.setState({
@@ -137,6 +122,7 @@ class PlaylistContainer extends Component {
     .then(newPlaylist => {
       this.setState({
         myPlaylists: [...this.state.myPlaylists, newPlaylist],
+        playlists: [...this.state.playlists, newPlaylist],
         playlistForm: false
       })
       this.createUserPlaylist(newPlaylist)
@@ -166,15 +152,15 @@ class PlaylistContainer extends Component {
   }
 
   deletePlaylist = (deletePlaylist) => {
-    let foundPlaylist = this.state.playlists.find(playlist => playlist.id === deletePlaylist.id)
-    let newPlaylists = this.state.playlists.filter(playlist => playlist.id !== deletePlaylist.id)
+    let foundPlaylist = this.state.myPlaylists.find(playlist => playlist.id === deletePlaylist.id)
+    let newPlaylists = this.state.myPlaylists.filter(playlist => playlist.id !== deletePlaylist.id)
     fetch(`http://localhost:3000/playlists/${deletePlaylist.id}`, {
       method: "DELETE"
     })
     .then(r => r.json())
     .then(() => {
       this.setState({
-        playlists: newPlaylists,
+        myPlaylists: newPlaylists,
         expandPlaylist: false,
         clickedPlaylist: null
       })

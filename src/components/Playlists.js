@@ -80,11 +80,13 @@ class Playlists extends Component {
 
   playFirstSong = () => {
     const filterSongs = this.filterSongs();
-    this.setState({
-      playSong: filterSongs[0]
-    }, () => {
-      return filterSongs[0].preview
-    })
+    if (filterSongs[0]) {
+      this.setState({
+        playSong: filterSongs[0]
+      }, () => {
+        return filterSongs[0].preview
+      })
+    }
   }
 
   deleteSong = (song) => {
@@ -106,9 +108,7 @@ class Playlists extends Component {
     return (
       <div>
         {
-          mySongs.length === 0
-          ? <h3>This playlist has no songs :(</h3>
-          : mySongs.map(song => {
+          mySongs.map(song => {
             return (
               <div
                 className={
@@ -144,32 +144,34 @@ class Playlists extends Component {
         onClick={() => this.props.handleClick(this.props.playlist)}
       >
         {
-          (this.props.expandPlaylist && filterSongs[0]) ?
-          <div className="sticky">
-            <img src={this.renderThumbnail()}/>
-            <h4>{this.props.playlist.name}</h4>
-            <div>
-              <button
-                className="playlistButton"
-                onClick={this.props.goBack}
-              >Back To My Playlists</button>
-              <button
-                className="playlistButton"
-                onClick={() => this.props.deletePlaylist(this.props.playlist)}
-              >Delete Playlist</button>
+          (this.props.expandPlaylist) ?
+          (
+            <div className="sticky">
+              <img src={this.renderThumbnail()}/>
+              <h4>{this.props.playlist.name}</h4>
+              <div>
+                <button
+                  className="playlistButton"
+                  onClick={this.props.goBack}
+                >Back To My Playlists</button>
+                <button
+                  className="playlistButton"
+                  onClick={() => this.props.deletePlaylist(this.props.playlist)}
+                >Delete Playlist</button>
+              </div>
+              <ReactAudioPlayer
+                src={this.state.playSong ? this.state.playSong.preview :
+                this.playFirstSong()}
+                controls
+                autoPlay
+              />
+              {
+                filterSongs[0]
+                ? this.renderSongs()
+                : <h3>No songs friendo</h3>
+              }
             </div>
-            <ReactAudioPlayer
-              src={this.state.playSong ? this.state.playSong.preview :
-              this.playFirstSong()}
-              controls
-              autoPlay
-            />
-          </div> :
-          null
-        }
-        {
-          this.props.expandPlaylist ?
-          this.renderSongs() :
+          ) :
           <div>
             <img src={this.renderThumbnail()}/>
             <h4>{this.props.playlist.name}</h4>

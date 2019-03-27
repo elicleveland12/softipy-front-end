@@ -6,20 +6,6 @@ import LookupContainer from './LookupContainer'
 import PlaylistContainer from './PlaylistContainer'
 import EventContainer from './EventContainer'
 
-// const colStyle = {
-//   backgroundColor: 'rgb(224, 224, 209, 0.1)',
-//   height: '90px',
-//   textAlign: 'center',
-//   boxShadow: '4px 4px 4px rgba(0, 0, 0, .5)',
-//   borderRadius: '1em'
-// }
-// //
-// const eventsRow = {
-//   width: '100%',
-//   paddingTop: '20px',
-//   paddingLeft: '17%'
-// }
-
 class Dashboard extends Component {
 
   state = {
