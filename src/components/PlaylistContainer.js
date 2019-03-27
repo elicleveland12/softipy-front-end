@@ -10,7 +10,42 @@ class PlaylistContainer extends Component {
     clickedPlaylist: null,
     playlistForm: false,
     newPlaylistName: "",
-    myPlaylists: []
+    myPlaylists: [],
+    newUserPlaylist: null,
+  }
+
+
+  static getDerivedStateFromProps(nextProps, prevState){
+     if(nextProps.newUserPlaylist !== prevState.newUserPlaylist) {
+       return { newUserPlaylist: nextProps.newUserPlaylist };
+    } else {
+      return null;
+    }
+  }
+
+  followPlaylist = () => {
+    let data = {
+      user_id: localStorage.getItem("user"),
+      playlist_id: this.state.newUserPlaylist.id
+    };
+
+    fetch('http://localhost:3000/user_playlists' , {
+      method: 'POST',
+      headers: {
+        "Content-type": "application/json"
+      },
+      body: JSON.stringify(data)
+    })
+    .then(res => res.json())
+    .then(newUserPlaylist => {
+      let newPlaylist = this.state.playlists.find(playlist => {
+        return playlist.id === this.state.newUserPlaylist.playlist_id;
+      })
+      this.setState({
+        myPlaylists: [...this.state.myPlaylists, newPlaylist],
+        newUserPlaylist: null,
+      })
+    })
   }
 
   setMyPlaylists = () => {
@@ -33,6 +68,7 @@ class PlaylistContainer extends Component {
         }
       })
     })
+
     this.setState({ myPlaylists })
   }
 
@@ -77,7 +113,6 @@ class PlaylistContainer extends Component {
     //logout functionality
     //friends
 
-      // also you need to refresh before they render
       if (this.state.myPlaylists !== []) {
         return (
           this.state.myPlaylists.map(playlist => {
@@ -134,6 +169,7 @@ class PlaylistContainer extends Component {
       user_id: localStorage.getItem("user"),
       playlist_id: playlist.id
     }
+
     fetch('http://localhost:3000/user_playlists' , {
       method: 'POST',
       headers: {
@@ -188,6 +224,9 @@ class PlaylistContainer extends Component {
   render() {
     return (
       <div>
+        {this.state.newUserPlaylist !== null ?
+        this.followPlaylist() :
+        null}
         {this.state.expandPlaylist === false ?
           <div>
             <button class="new-playlist" onClick={this.changePlaylistFormState}> + </button>
