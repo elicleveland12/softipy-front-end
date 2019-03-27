@@ -17,19 +17,18 @@ class Events extends Component {
 
   render() {
     return (
-      <div
-        draggable="false"
-      >
-        <div>
-          <img src={this.renderThumbnail()}/>
-          <h4>{this.props.playlist.name}</h4>
+      <span>
+        <div className="friend-playlist-card" draggable="false">
+          <img className="move-title-and-button"src={this.renderThumbnail()}/>
+          <h4 className="move-title-and-button">{this.props.playlist.name}</h4>
           <button
             onClick={() => {
               this.props.addPlaylist(this.props.playlist)
             }}
+            className="move-title-and-button"
           >+</button>
         </div>
-      </div>
+      </span>
     );
   }
 }

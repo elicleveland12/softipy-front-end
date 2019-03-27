@@ -7,12 +7,6 @@ import Dashboard from './components/Dashboard'
 
 import './App.css'
 
-const colStyle = {
-  height: '50px',
-  textAlign: 'center',
-  border: '2px solid green',
-}
-
 class App extends Component {
   render() {
     let localUser = localStorage.getItem('user');
@@ -24,7 +18,7 @@ class App extends Component {
           ? (
             <Grid>
               <Row className="Nav">
-                <Col style={colStyle} xs={12}>
+                <Col xs={12}>
                   <Nav />
                 </Col>
               </Row>

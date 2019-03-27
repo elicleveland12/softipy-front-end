@@ -12,21 +12,25 @@ class PlaylistContainer extends Component {
     newPlaylistName: "",
     myPlaylists: [],
     newUserPlaylist: null,
+    addNewPlaylist: []
   }
 
-
+//you solved the problem of only rendering one new playlist, but now you created a new problem where you just fetch infinity times.
   static getDerivedStateFromProps(nextProps, prevState){
-     if(nextProps.newUserPlaylist !== prevState.newUserPlaylist) {
-       return { newUserPlaylist: nextProps.newUserPlaylist };
-    } else {
-      return null;
+    console.log(nextProps, prevState)
+    if (nextProps.addNewPlaylist && prevState.newUserPlaylist) {
+       if (nextProps.addNewPlaylist.id !== prevState.newUserPlaylist.playlist_id) {
+         return { addNewPlaylist: nextProps.addNewPlaylist };
+      } else {
+        return null;
+      }
     }
   }
 
   followPlaylist = () => {
     let data = {
       user_id: localStorage.getItem("user"),
-      playlist_id: this.state.newUserPlaylist.id
+      playlist_id: this.props.addNewPlaylist.id
     };
 
     fetch('http://localhost:3000/user_playlists' , {
@@ -38,13 +42,14 @@ class PlaylistContainer extends Component {
     })
     .then(res => res.json())
     .then(newUserPlaylist => {
-      let newPlaylist = this.state.playlists.find(playlist => {
-        return playlist.id === this.state.newUserPlaylist.playlist_id;
-      })
+      let addNewPlaylist = this.state.playlists.find(playlist => playlist.id === newUserPlaylist.playlist_id)
       this.setState({
-        myPlaylists: [...this.state.myPlaylists, newPlaylist],
-        newUserPlaylist: null,
+        addNewPlaylist,
+        newUserPlaylist
       })
+      // let currentPlaylists = this.state.myPlaylists
+      // let newPlaylists = [...currentPlaylists, newPlaylist]
+      // return newPlaylists
     })
   }
 
@@ -114,6 +119,7 @@ class PlaylistContainer extends Component {
     //friends
 
       if (this.state.myPlaylists !== []) {
+        // debugger
         return (
           this.state.myPlaylists.map(playlist => {
           return (
@@ -221,9 +227,26 @@ class PlaylistContainer extends Component {
     this.setState({ playlistForm: !this.state.playlistForm})
   }
 
+  renderNewPlaylist = () => {
+    // return this.state.newPlaylists.map(playlist => {
+      return (
+        <Playlists
+          playlist={this.state.addNewPlaylist}
+          handleClick={this.handleClick}
+          songs={this.props.songs}
+          expandPlaylist={this.state.expandPlaylist}
+          draggedSong={this.props.draggedSong}
+          addSong={this.props.addSong}
+        />
+      )
+    // })
+  }
+
   render() {
+    // console.log(this.props.addNewPlaylist)
     return (
       <div>
+      // this right here, this is a circle
         {this.state.newUserPlaylist !== null ?
         this.followPlaylist() :
         null}
@@ -234,7 +257,7 @@ class PlaylistContainer extends Component {
             <h1 className="header">MY PLAYLISTS:</h1>
             {this.state.playlistForm ? this.addNewPlaylist() : null}
             {this.renderPlaylists()}
-
+            {this.state.newPlaylist ? this.renderNewPlaylist() : null}
           </div> :
           <div>
             {this.renderSinglePlaylist()}

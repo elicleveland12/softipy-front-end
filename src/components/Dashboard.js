@@ -16,7 +16,7 @@ class Dashboard extends Component {
     searchTerm: null,
     friend: null,
     friendPlaylists: [],
-    newUserPlaylist: null,
+    addNewPlaylist: null,
   }
 
   componentDidMount() {
@@ -28,7 +28,7 @@ class Dashboard extends Component {
   }
 
   addPlaylist = (playlist) => {
-    this.setState({ newUserPlaylist: playlist });
+    this.setState({ addNewPlaylist: playlist });
   }
 
   addSong = song => {
@@ -74,12 +74,12 @@ class Dashboard extends Component {
 
   render() {
     return (
-      <Grid>
+      <Grid className="grid">
         <Row>
-          <Col className="playlist-container" xs={2}>
+          <Col className="playlist-container" xs={1.5}>
             <FriendsContainer handleClick={this.handleClick}/>
           </Col>
-          <Col className="playlist-container" xs={5}>
+          <Col className="playlist-container" xs={4}>
             <LookupContainer handleDraggedSong={this.handleDraggedSong} searchHandler={this.searchHandler} search={this.state.search} updateSearchTerm={this.updateSearchTerm} searchResults={this.state.searchResults}
             searchTerm={this.state.searchTerm}/>
           </Col>
@@ -90,18 +90,19 @@ class Dashboard extends Component {
               addSong={this.addSong}
               deleteSong={this.deleteSong}
               newUserPlaylist={this.state.newUserPlaylist}
+              addNewPlaylist={this.state.addNewPlaylist}
             />
           </Col>
         </Row>
-        {<Row className="events-row playlist-container">
-          <Col className="col-style" xs={10}>
+        <Row className="events-row">
+          <Col xs={11.5}>
             <EventContainer
               songs={this.state.allSongs}
               user={this.state.friend}
               addPlaylist={this.addPlaylist}
             />
           </Col>
-        </Row>}
+        </Row>
       </Grid>
     );
   }

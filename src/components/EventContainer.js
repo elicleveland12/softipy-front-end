@@ -52,10 +52,10 @@ class EventContainer extends Component {
         {
           this.props.user
             ?
-          <Fragment>
+          <div className="friend-playlist-list">
             <h3>{this.props.user.username}'s Playlists</h3>
             {this.renderFriendsPlaylists()}
-          </Fragment>
+          </div>
             :
           null
         }
