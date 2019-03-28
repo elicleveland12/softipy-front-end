@@ -43,8 +43,14 @@ class Dashboard extends Component {
   addPlaylist = (playlist) => {
     this.setState({
       addNewPlaylist: playlist,
-      toggleFollow: !this.state.toggleFollow
+      toggleFollow: true
     });
+  }
+
+  toggleFollowToFalse = () => {
+    this.setState({
+      toggleFollow: false
+    })
   }
 
   addSong = song => {
@@ -122,11 +128,12 @@ class Dashboard extends Component {
               users={this.state.users}
               switchFollowPlaylist={this.switchFollowPlaylist}
               toggleFollow={this.state.toggleFollow}
+              toggleFollowToFalse={this.toggleFollowToFalse}
             />
           </Col>
         </Row>
         <Row className="events-row">
-          <Col xs={11.5}>
+          <Col xs={12}>
             <EventContainer
               songs={this.state.allSongs}
               user={this.state.friend}

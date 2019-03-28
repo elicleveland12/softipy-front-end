@@ -38,23 +38,27 @@ class PlaylistContainer extends Component {
   }
 
   followPlaylist = () => {
-    let newPlaylistId = this.props.addNewPlaylist.id
-    let songs = this.props.songs.filter(song => song.playlist_id === newPlaylistId)
-    let data = {
-      user_id: localStorage.getItem("user"),
-      name: this.props.addNewPlaylist.name
-    };
-    fetch('http://localhost:3000/playlists' , {
-      method: 'POST',
-      headers: {
-        "Content-type": "application/json"
-      },
-      body: JSON.stringify(data)
-    })
-    .then(res => res.json())
-    .then(playlist => {
-      this.postSongsToNewPlaylist(songs, playlist)
-    })
+    if (this.props.toggleFollow) {
+      console.log("i am true apparently");
+      let newPlaylistId = this.props.addNewPlaylist.id
+      let songs = this.props.songs.filter(song => song.playlist_id === newPlaylistId)
+      let data = {
+        user_id: localStorage.getItem("user"),
+        name: this.props.addNewPlaylist.name
+      };
+      console.log("do u even hit");
+      fetch('http://localhost:3000/playlists' , {
+        method: 'POST',
+        headers: {
+          "Content-type": "application/json"
+        },
+        body: JSON.stringify(data)
+      })
+      .then(res => res.json())
+      .then(playlist => {
+        this.postSongsToNewPlaylist(songs, playlist)
+      })
+    }
   }
 
   postSongsToNewPlaylist = (songs, playlist) => {
@@ -106,6 +110,7 @@ class PlaylistContainer extends Component {
         expandPlaylist: !this.state.expandPlaylist,
         clickedPlaylist: playlist
       })
+      this.props.toggleFollowToFalse()
     }
   }
 
@@ -162,7 +167,6 @@ class PlaylistContainer extends Component {
       name: this.state.newPlaylistName,
       user_id: parseInt(localStorage.getItem("user"))
     }
-
     fetch('http://localhost:3000/playlists', {
       method: 'POST',
       headers: {
@@ -180,26 +184,27 @@ class PlaylistContainer extends Component {
     })
   }
 
-  createUserPlaylist = (playlist) => {
-    let data = {
-      user_id: localStorage.getItem("user"),
-      playlist_id: playlist.id
-    }
-
-    fetch('http://localhost:3000/user_playlists' , {
-      method: 'POST',
-      headers: {
-        "Content-type": "application/json"
-      },
-      body: JSON.stringify(data)
-    })
-    .then(res => res.json())
-  }
+  // createUserPlaylist = (playlist) => {
+  //   let data = {
+  //     user_id: localStorage.getItem("user"),
+  //     playlist_id: playlist.id
+  //   }
+  //
+  //   fetch('http://localhost:3000/user_playlists' , {
+  //     method: 'POST',
+  //     headers: {
+  //       "Content-type": "application/json"
+  //     },
+  //     body: JSON.stringify(data)
+  //   })
+  //   .then(res => res.json())
+  // }
 
   goBack = () => {
    this.setState({
      expandPlaylist: !this.state.expandPlaylist,
-     clickedPlaylist: null
+     clickedPlaylist: null,
+     toggleFollow: false
    })
   }
 

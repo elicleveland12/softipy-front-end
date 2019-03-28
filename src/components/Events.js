@@ -26,7 +26,7 @@ class Events extends Component {
             className="move-title-and-button right"
           >+</button>
           <img className="image"src={this.renderThumbnail()}/>
-          <h4 className="move-title-and-button">{this.props.playlist.name}</h4>
+          <h6 className="playlist-name">{this.props.playlist.name}</h6>
 
         </span>
       </span>

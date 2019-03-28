@@ -38,7 +38,7 @@ class EventContainer extends Component {
           this.props.user
             ?
           <div>
-            <h3 className="playlist-header">{this.props.user.username}'s Playlists</h3>
+            <h5 className="playlist-header">{this.props.user.username}'s Playlists</h5>
             <div className="friend-playlist-list">
 
               {this.renderFriendsPlaylists()}
