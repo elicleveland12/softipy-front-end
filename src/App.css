@@ -113,7 +113,9 @@ h6.playlist-name {
   text-align: center;
   color: white;
   font-size: 40px;
+  display: inline;
 }
+
 
 .friend-playlist-card {
   background-color: white;
@@ -230,11 +232,25 @@ button.playlistButton:hover {
   color: white;
 }
 
+.welcome {
+  margin-right: auto;
+  margin-left: auto;
+  margin-top: 15px;
+  display: block;
+  float: left;
+}
+
 button.right {
   color: black;
   background-color: none;
   border: 1px solid black;
   border-radius: 3em;
+}
+
+.softipy {
+  text-align: center;
+  /* margin-right: 500px; */
+  margin-left: auto;
 }
 
 button.right:hover {
@@ -324,6 +340,7 @@ button.right:hover {
   color: black;
   background-color: none;
   padding: 10px;
+  margin-top: 15px;
 }
 
 .playlistButton:hover {
@@ -365,7 +382,15 @@ button.right:hover {
   color: white;
   font-weight: bold;
   font-size: 20px;
-  margin-top: 20px;
+  margin-top: 25px;
+  width: 120px;
+  padding: 10px;
+  margin-top: 15px;
+}
+
+.logout:hover{
+  background-color: black;
+  color: white;
 }
 
 .results-container {

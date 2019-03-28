@@ -31,9 +31,14 @@ class Nav extends Component {
   render() {
     return (
       <div className="nav">
-        <span><button className="playlistButton logout" onClick={this.endSession}>Log Out</button></span>
-        <span><h6>Welcome {this.getUserName()}</h6></span>
-        <span><h2>SoftiPy</h2></span>
+        <span>
+          <button className="logout" onClick={this.endSession}>Log Out</button>
+          <span className="welcome">Welcome {this.getUserName()}</span>
+        </span>
+        <br/><br/>
+        <div className="softipy">
+        <h2>SoftiPy</h2>
+        </div>
       </div>
     );
   }

@@ -6,7 +6,7 @@ class Friends extends Component {
     return (
       <div className="friend-card" onClick={() => this.props.handleClick(this.props.user)}>
         <span className="friendImgCard" >
-          <img className="friendImg" src={`https://loremflickr.com/320/24${this.props.user.id}`} />
+          <img className="friendImg" src={`https://loremflickr.com/320/24${Math.floor(Math.random() * Math.floor(10))}`} />
         </span><br/>
         <span className="username">{this.props.user.username}</span>
       </div>
