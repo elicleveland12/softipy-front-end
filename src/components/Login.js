@@ -79,13 +79,13 @@ export default class Login extends React.Component {
         <div className="login">
           <h1>SoftiPy</h1>
           <form onSubmit={this.createUser}>
-            <label>Username:</label>
+            <label>Username: </label>
             <input onChange={this.handleOnChange} name="username" value={this.state.username}type="text" />
-            <br />
-            <label>Password:</label>
+            <br /><br />
+            <label>Password: </label>
             <input onChange={this.handleOnChange} name="password" value={this.state.password}type="password" />
             <br /><br />
-            <input type="submit" value="Log In" />
+            <input className="playlistButton" type="submit" value="Log In" />
           </form>
         </div>
       }

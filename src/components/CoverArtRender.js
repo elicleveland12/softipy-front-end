@@ -22,7 +22,6 @@ class CoverArtRender extends Component {
             <ReactAudioPlayer className="audio" src={this.props.result.preview} controls />
          </div>
         </div>
-
       </ul>
     );
   }
