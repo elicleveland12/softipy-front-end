@@ -15,18 +15,19 @@ class PlaylistContainer extends Component {
     followPlaylist: false,
   }
 
-  static getDerivedStateFromProps(nextProps, prevState){
-    // console.log(nextProps, prevState)
+  static getDerivedStateFromProps(nextProps, prevState) {
     if (nextProps.addNewPlaylist && prevState.addNewPlaylist) {
-       if (nextProps.addNewPlaylist.id !== prevState.addNewPlaylist.id) {
-         return ({
+      // so this is getting set back to true when you click on that playlist for some reason and that's sad
+       if (nextProps.addNewPlaylist.id !== prevState.addNewPlaylist.id && prevState.followPlaylist === false) {
+         return {
            followPlaylist: true,
            addNewPlaylist: [...prevState.addNewPlaylist, nextProps.addNewPlaylist],
            myPlaylists: [...prevState.myPlaylists, nextProps.addNewPlaylist],
            playlists: [...prevState.playlists, nextProps.addNewPlaylist],
-         })
+         }
       } else {
-        return null;
+        console.log('hey, here')
+        return {followPlaylist: false};
       }
     }
   }
@@ -107,12 +108,7 @@ class PlaylistContainer extends Component {
   }
 
   renderPlaylists = () => {
-    //lets figure out how to many-to-many the playlist and user, creating a playlist and having your playlists render while logged inspect
-    //logout functionality
-    //friends
-
       if (this.state.myPlaylists !== []) {
-        // debugger
         return (
           this.state.myPlaylists.map(playlist => {
           return (
@@ -221,6 +217,7 @@ class PlaylistContainer extends Component {
   }
 
   render() {
+    console.log(this.state.followPlaylist)
     return (
       <div>
         {this.state.followPlaylist === true ? this.followPlaylist() : null}
