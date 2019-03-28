@@ -2,35 +2,6 @@ import React, { Component } from 'react';
 import ReactAudioPlayer from 'react-audio-player'
 import '../App.css'
 
-// const songImg = {
-//   borderRadius: '1em',
-//   height: '70px',
-//   width: '70px',
-//   paddingLeft: '5px',
-//   paddingTop: '5px',
-//   paddingBottom: '5px',
-//   float: 'left',
-// }
-//
-// const audioPlayer = {
-//   height: '30px',
-//   width: '200px'
-// }
-//
-// const artistAndTitle = {
-//   display: 'inline',
-// }
-//
-// const artist = {
-//   marginTop: '2px',
-//   fontSize: '120%'
-// }
-//
-// const title = {
-//   fontSize: '90%'
-// }
-//***** STYLING *****//
-
 class Playlists extends Component {
   state = {
     playSong: null
@@ -54,6 +25,7 @@ class Playlists extends Component {
     })
     .then(r=>r.json())
     .then(song => {
+      console.log(song);
       this.props.addSong(song)
     })
   }

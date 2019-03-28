@@ -17,6 +17,8 @@ class Dashboard extends Component {
     friend: null,
     friendPlaylists: [],
     addNewPlaylist: null,
+    users: [],
+    toggleFollow: false
   }
 
   componentDidMount() {
@@ -25,10 +27,24 @@ class Dashboard extends Component {
     .then(songs => {
       this.setState({ allSongs: songs })
     })
+    .then(this.getUsers())
+  }
+
+  getUsers = () => {
+    fetch('http://localhost:3000/users')
+    .then(r => r.json())
+    .then(users => {
+      this.setState({
+        users
+      }, () => console.log("set state", this.state.users))
+    })
   }
 
   addPlaylist = (playlist) => {
-    this.setState({ addNewPlaylist: playlist });
+    this.setState({
+      addNewPlaylist: playlist,
+      toggleFollow: !this.state.toggleFollow
+    });
   }
 
   addSong = song => {
@@ -54,6 +70,12 @@ class Dashboard extends Component {
     })
     }
 
+  // switchFollowPlaylist = () => {
+  //   this.setState({
+  //     toggleFollow: !this.state.toggleFollow
+  //   })
+  // }
+
   updateSearchTerm = (e) => {
     this.setState({
       search: e.target.value
@@ -73,15 +95,21 @@ class Dashboard extends Component {
   }
 
   render() {
+    console.log(this.state.users);
     return (
       <Grid className="grid">
         <Row>
           <Col className="playlist-container" xs={1.5}>
-            <FriendsContainer handleClick={this.handleClick}/>
+            <FriendsContainer handleClick={this.handleClick} users={this.state.users}/>
           </Col>
           <Col className="playlist-container" xs={4}>
-            <LookupContainer handleDraggedSong={this.handleDraggedSong} searchHandler={this.searchHandler} search={this.state.search} updateSearchTerm={this.updateSearchTerm} searchResults={this.state.searchResults}
-            searchTerm={this.state.searchTerm}/>
+            <LookupContainer
+              handleDraggedSong={this.handleDraggedSong} searchHandler={this.searchHandler}
+              search={this.state.search}
+              updateSearchTerm={this.updateSearchTerm}
+              searchResults={this.state.searchResults}
+              searchTerm={this.state.searchTerm}
+            />
           </Col>
           <Col className="playlist-container" xs={4}>
             <PlaylistContainer
@@ -91,6 +119,9 @@ class Dashboard extends Component {
               deleteSong={this.deleteSong}
               newUserPlaylist={this.state.newUserPlaylist}
               addNewPlaylist={this.state.addNewPlaylist}
+              users={this.state.users}
+              switchFollowPlaylist={this.switchFollowPlaylist}
+              toggleFollow={this.state.toggleFollow}
             />
           </Col>
         </Row>

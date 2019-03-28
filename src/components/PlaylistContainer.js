@@ -13,6 +13,7 @@ class PlaylistContainer extends Component {
     myPlaylists: [],
     addNewPlaylist: [],
     followPlaylist: false,
+    users: []
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -25,50 +26,68 @@ class PlaylistContainer extends Component {
            myPlaylists: [...prevState.myPlaylists, nextProps.addNewPlaylist],
            playlists: [...prevState.playlists, nextProps.addNewPlaylist],
          }
-      } else {
-        console.log('hey, here')
-        return {followPlaylist: false};
       }
+    }
+
+    if (nextProps.users.length !== prevState.users.length) {
+      let userId = parseInt(localStorage.getItem("user"));
+      let currentUser = nextProps.users.find(user => user.id === userId)
+      let myPlaylists = currentUser.playlists
+      return ({ myPlaylists, users: nextProps.users })
     }
   }
 
   followPlaylist = () => {
+    let newPlaylistId = this.props.addNewPlaylist.id
+    let songs = this.props.songs.filter(song => song.playlist_id === newPlaylistId)
     let data = {
       user_id: localStorage.getItem("user"),
-      playlist_id: this.props.addNewPlaylist.id
+      name: this.props.addNewPlaylist.name
     };
-
-    fetch('http://localhost:3000/user_playlists' , {
+    fetch('http://localhost:3000/playlists' , {
       method: 'POST',
       headers: {
         "Content-type": "application/json"
       },
       body: JSON.stringify(data)
     })
+    .then(res => res.json())
+    .then(playlist => {
+      this.postSongsToNewPlaylist(songs, playlist)
+    })
   }
 
-  setMyPlaylists = () => {
-    let userId = parseInt(localStorage.getItem("user"));
-    let currentUser;
-    let myPlaylists = []
+  postSongsToNewPlaylist = (songs, playlist) => {
+    let data = [];
 
-    this.state.playlists.forEach(playlist => {
-      playlist.users.forEach(user => {
-        if (user.id === userId) {
-          return currentUser = user;
-        }
-      })
+    songs.forEach(song => {
+      // debugger
+      let songData = {
+        title: song.title,
+        artist: song.artist,
+        cover_art: song.cover_art,
+        playlist_id: playlist.id,
+        preview: song.preview
+      }
+
+      data = [...data, songData]
     })
 
-    this.state.playlists.forEach(playlist => {
-      playlist.users.forEach(user => {
-        if (user.id === userId) {
-          myPlaylists.push(playlist);
-        }
-      })
+    data.forEach(datum => {
+      this.postSongs(datum);
     })
+  }
 
-    this.setState({ myPlaylists })
+  postSongs = (datum) => {
+    fetch('http://localhost:3000/songs' , {
+      method: 'POST',
+      headers: {
+        "Content-type": "application/json"
+      },
+      body: JSON.stringify(datum)
+    })
+    .then(res => res.json())
+
   }
 
   componentDidMount() {
@@ -79,7 +98,6 @@ class PlaylistContainer extends Component {
         playlists
       })
     })
-    .then(this.setMyPlaylists)
   }
 
   handleClick = (playlist) => {
@@ -139,14 +157,18 @@ class PlaylistContainer extends Component {
 
   createPlaylist = (e) => {
     e.preventDefault()
+
+    let data = {
+      name: this.state.newPlaylistName,
+      user_id: parseInt(localStorage.getItem("user"))
+    }
+
     fetch('http://localhost:3000/playlists', {
       method: 'POST',
       headers: {
         "Content-type": "application/json"
       },
-      body: JSON.stringify({
-        name: this.state.newPlaylistName
-      })
+      body: JSON.stringify(data)
     })
     .then(res => res.json())
     .then(newPlaylist => {
@@ -155,7 +177,6 @@ class PlaylistContainer extends Component {
         playlists: [...this.state.playlists, newPlaylist],
         playlistForm: false
       })
-      this.createUserPlaylist(newPlaylist)
     })
   }
 
@@ -217,10 +238,10 @@ class PlaylistContainer extends Component {
   }
 
   render() {
-    console.log(this.state.followPlaylist)
+    console.log(this.props.toggleFollow, this.state.followPlaylist);
     return (
       <div>
-        {this.state.followPlaylist === true ? this.followPlaylist() : null}
+        {this.props.toggleFollow && this.state.followPlaylist ? this.followPlaylist() : null}
         {this.state.expandPlaylist === false ?
           <div>
             <h1 className="header">MY PLAYLISTS</h1>

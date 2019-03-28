@@ -2,13 +2,6 @@ import React, { Component, Fragment } from 'react';
 import Events from './Events'
 
 class EventContainer extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      playlists: [],
-      friendsPlaylists: [],
-    };
-  }
 
   componentDidMount() {
     fetch('http://localhost:3000/playlists')
@@ -24,15 +17,7 @@ class EventContainer extends Component {
     let friendsPlaylists = [];
 
     if (this.props.user) {
-      let userId = this.props.user.id;
-
-      this.state.playlists.forEach(playlist => {
-        playlist.users.forEach(user => {
-          if (user.id === userId) {
-            friendsPlaylists.push(playlist);
-          }
-        })
-      })
+      let friendsPlaylists = this.props.user.playlists
 
       return friendsPlaylists.map(playlist => {
         return (

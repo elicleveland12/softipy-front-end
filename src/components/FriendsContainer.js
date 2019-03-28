@@ -5,22 +5,10 @@ import Friends from './Friends'
 class FriendsContainer extends Component {
   state = {
     displayFriends: false,
-    users: [],
-    friends: []
-  };
-
-  componentDidMount() {
-    fetch('http://localhost:3000/users')
-    .then(r => r.json())
-    .then(users => {
-      this.setState({
-        users
-      })
-    })
   };
 
   renderUsers = () => {
-    return this.state.users.map(user => {
+    return this.props.users.map(user => {
       return (
         <Friends user={user} handleClick={this.props.handleClick} />
       )
