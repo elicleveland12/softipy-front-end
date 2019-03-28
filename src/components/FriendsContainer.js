@@ -39,7 +39,7 @@ class FriendsContainer extends Component {
           </Fragment>
             :
           <Fragment>
-            <h3>All Users</h3>
+            <h1 className="friends-header">ALL USERS</h1>
             {this.renderUsers()}
           </Fragment>
         }
