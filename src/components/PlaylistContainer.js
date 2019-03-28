@@ -57,9 +57,9 @@ class PlaylistContainer extends Component {
       .then(playlist => {
         this.postSongsToNewPlaylist(songs, playlist)
       })
-      // .then(() => {
-      //   console.log("when do you run?");
-      //   this.props.toggleFollowFunc()})
+      .then(() => {
+        console.log("when do you run?");
+        this.props.toggleFollowFunc()})
     }
   }
 
