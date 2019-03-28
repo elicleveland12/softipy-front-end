@@ -236,7 +236,7 @@ class PlaylistContainer extends Component {
         {this.state.expandPlaylist === false ?
           <div>
             <h1 className="header">MY PLAYLISTS</h1>
-            <div >
+            <div>
               <button className="playlistButton" onClick={this.changePlaylistFormState}>New Playlist</button>
             </div>
             {this.state.playlistForm ? this.addNewPlaylist() : null}

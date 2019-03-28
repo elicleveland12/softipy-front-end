@@ -117,7 +117,8 @@ class Playlists extends Component {
         {
           (this.props.expandPlaylist) ?
           (
-            <div className="sticky">
+            <div >
+              <div className="sticky">
               <img src={this.renderThumbnail()}/>
               <h4>{this.props.playlist.name}</h4>
               <div>
@@ -129,13 +130,15 @@ class Playlists extends Component {
                   className="playlistButton"
                   onClick={() => this.props.deletePlaylist(this.props.playlist)}
                 >Delete Playlist</button>
+                <ReactAudioPlayer
+                  src={this.state.playSong ? this.state.playSong.preview :
+                  this.playFirstSong()}
+                  controls
+                  autoPlay
+                />
+                </div>
               </div>
-              <ReactAudioPlayer
-                src={this.state.playSong ? this.state.playSong.preview :
-                this.playFirstSong()}
-                controls
-                autoPlay
-              />
+
               {
                 filterSongs[0]
                 ? this.renderSongs()
