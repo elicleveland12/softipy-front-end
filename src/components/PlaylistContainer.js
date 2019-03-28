@@ -16,7 +16,7 @@ class PlaylistContainer extends Component {
   }
 
   static getDerivedStateFromProps(nextProps, prevState){
-    console.log(nextProps, prevState)
+    // console.log(nextProps, prevState)
     if (nextProps.addNewPlaylist && prevState.addNewPlaylist) {
        if (nextProps.addNewPlaylist.id !== prevState.addNewPlaylist.id) {
          return ({
@@ -221,10 +221,9 @@ class PlaylistContainer extends Component {
   }
 
   render() {
-    console.log(this.props.newUserPlaylist)
     return (
       <div>
-        {this.state.followPlaylist === true ? this.followPlaylist : null}
+        {this.state.followPlaylist === true ? this.followPlaylist() : null}
         {this.state.expandPlaylist === false ?
           <div>
             <button class="new-playlist" onClick={this.changePlaylistFormState}> + </button>
