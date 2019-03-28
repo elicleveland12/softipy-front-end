@@ -11,7 +11,7 @@ class PlaylistContainer extends Component {
     playlistForm: false,
     newPlaylistName: "",
     myPlaylists: [],
-    addNewPlaylist: [],
+    addNewPlaylist: {},
     followPlaylist: false,
     users: []
   }
@@ -19,10 +19,10 @@ class PlaylistContainer extends Component {
   static getDerivedStateFromProps(nextProps, prevState) {
     if (nextProps.addNewPlaylist && prevState.addNewPlaylist) {
       // so this is getting set back to true when you click on that playlist for some reason and that's sad
-       if (nextProps.addNewPlaylist.id !== prevState.addNewPlaylist.id && prevState.followPlaylist === false) {
+       if (nextProps.addNewPlaylist !== prevState.addNewPlaylist && prevState.followPlaylist === false) {
          return {
            followPlaylist: true,
-           addNewPlaylist: [...prevState.addNewPlaylist, nextProps.addNewPlaylist],
+           addNewPlaylist: nextProps.addNewPlaylist,
            myPlaylists: [...prevState.myPlaylists, nextProps.addNewPlaylist],
            playlists: [...prevState.playlists, nextProps.addNewPlaylist],
          }
@@ -39,14 +39,13 @@ class PlaylistContainer extends Component {
 
   followPlaylist = () => {
     if (this.props.toggleFollow) {
-      console.log("i am true apparently");
       let newPlaylistId = this.props.addNewPlaylist.id
       let songs = this.props.songs.filter(song => song.playlist_id === newPlaylistId)
       let data = {
         user_id: localStorage.getItem("user"),
         name: this.props.addNewPlaylist.name
       };
-      console.log("do u even hit");
+
       fetch('http://localhost:3000/playlists' , {
         method: 'POST',
         headers: {
@@ -58,6 +57,9 @@ class PlaylistContainer extends Component {
       .then(playlist => {
         this.postSongsToNewPlaylist(songs, playlist)
       })
+      // .then(() => {
+      //   console.log("when do you run?");
+      //   this.props.toggleFollowFunc()})
     }
   }
 
@@ -110,7 +112,7 @@ class PlaylistContainer extends Component {
         expandPlaylist: !this.state.expandPlaylist,
         clickedPlaylist: playlist
       })
-      this.props.toggleFollowToFalse()
+      // this.props.toggleFollowToFalse()
     }
   }
 
@@ -184,22 +186,6 @@ class PlaylistContainer extends Component {
     })
   }
 
-  // createUserPlaylist = (playlist) => {
-  //   let data = {
-  //     user_id: localStorage.getItem("user"),
-  //     playlist_id: playlist.id
-  //   }
-  //
-  //   fetch('http://localhost:3000/user_playlists' , {
-  //     method: 'POST',
-  //     headers: {
-  //       "Content-type": "application/json"
-  //     },
-  //     body: JSON.stringify(data)
-  //   })
-  //   .then(res => res.json())
-  // }
-
   goBack = () => {
    this.setState({
      expandPlaylist: !this.state.expandPlaylist,
@@ -243,7 +229,7 @@ class PlaylistContainer extends Component {
   }
 
   render() {
-    console.log(this.props.toggleFollow, this.state.followPlaylist);
+    console.log('state:', this.state, 'props:', this.props)
     return (
       <div>
         {this.props.toggleFollow && this.state.followPlaylist ? this.followPlaylist() : null}

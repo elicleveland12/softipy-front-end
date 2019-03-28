@@ -36,22 +36,32 @@ class Dashboard extends Component {
     .then(users => {
       this.setState({
         users
-      }, () => console.log("set state", this.state.users))
+      })
     })
   }
 
   addPlaylist = (playlist) => {
+    // debugger
+    console.log('im toggling follow in dashboard')
     this.setState({
       addNewPlaylist: playlist,
-      toggleFollow: true
     });
+    this.toggleFollowFunc()
   }
 
-  toggleFollowToFalse = () => {
+  toggleFollowFunc = () => {
+    // debugger
     this.setState({
-      toggleFollow: false
+      toggleFollow: !this.state.toggleFollow
     })
   }
+  // toggleFollowToFalse = () => {
+  //   console.log('im toggling follow in togglefollowtofalse')
+  //   this.setState({
+  //     toggleFollow: false,
+  //     addNewPlaylist: null
+  //   })
+  // }
 
   addSong = song => {
     let allSongs = this.state.allSongs
@@ -76,12 +86,6 @@ class Dashboard extends Component {
     })
     }
 
-  // switchFollowPlaylist = () => {
-  //   this.setState({
-  //     toggleFollow: !this.state.toggleFollow
-  //   })
-  // }
-
   updateSearchTerm = (e) => {
     this.setState({
       search: e.target.value
@@ -101,7 +105,6 @@ class Dashboard extends Component {
   }
 
   render() {
-    console.log(this.state.users);
     return (
       <Grid className="grid">
         <Row>
@@ -128,7 +131,7 @@ class Dashboard extends Component {
               users={this.state.users}
               switchFollowPlaylist={this.switchFollowPlaylist}
               toggleFollow={this.state.toggleFollow}
-              toggleFollowToFalse={this.toggleFollowToFalse}
+              toggleFollowFunc={this.toggleFollowFunc}
             />
           </Col>
         </Row>
@@ -145,6 +148,5 @@ class Dashboard extends Component {
     );
   }
 }
-
 
 export default Dashboard;

@@ -10,7 +10,6 @@ class CoverArtRender extends Component {
         <div
           draggable="true"
           onDrag={(song)=>this.props.handleDraggedSong(this.props.result)}
-          onClick={() => console.log("song", this.props.result)}
           className="cover-art-div"
         >
           <div>

@@ -25,7 +25,6 @@ class Playlists extends Component {
     })
     .then(r=>r.json())
     .then(song => {
-      console.log(song);
       this.props.addSong(song)
     })
   }
