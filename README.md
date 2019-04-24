@@ -6,6 +6,12 @@ A project created during our time at the [Flatiron School](https://flatironschoo
 
 ![](https://media.giphy.com/media/xlpb51NI4PMXBMU7Pg/giphy.gif)
 
+## TECHNOLOGIES
+- React
+- Ruby on Rails
+- Deezer API
+- Custom CSS
+
 ## DESCRIPTION
 SoftiPy is a music streaming service and playlist building application, built on a React front end and a Ruby on Rails back end. Upon login, a User will see their dashboard, where they can see all of the users, a search bar, and a list of their own playlists. We used Deezer's open source song API in order to allow for a user to search for any song by the keyword of their choosing. Users can also create and edit playlists by dragging songs into the desired playlist. Users are also able to click on any other user and see their playlists, and add it into their own playlists, allowing them to edit that playlist without affecting the original users playlist.
 
