@@ -1,5 +1,5 @@
 # SoftiPy
-by Sivan Adler, David Floyd, and Eli Cleavland
+by Sivan Adler, David Floyd, and Eli Cleveland
 
 
 A project created during our time at the [Flatiron School](https://flatironschool.com/)
@@ -17,9 +17,9 @@ SoftiPy is a music streaming service and playlist building application, built on
 
 
 ## INSTALL
-1. Clone down this repository to your local machine. 
+1. Clone down this repository to your local machine.
 2. Clone down the [backend repository](https://github.com/sivanadler/Softipy-Back-End) to your local machine.
-3. Run ```bundle install``` in your terminal after cloning down the backend repository. 
+3. Run ```bundle install``` in your terminal after cloning down the backend repository.
 4. Before launching the app, you'll need to launch our database. In your terminal for the backend repository, run ```rails db:create``` and ```rails db:migrate```.
 5. Run ```rails s``` in that same terminal session to launch our server.
 6. Once your server is running, run ```npm install``` in your terminal for the front-end cloned repository.
